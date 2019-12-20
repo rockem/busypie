@@ -19,10 +19,10 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/rockem/busypie",
     packages=['busypie'],
-    install_requires=[
+    install_require=[
 
     ],
-    tests_requires=[
+    tests_require=[
         'pytest==5.3.2',
         'pytest-runner==5.2'
     ],
