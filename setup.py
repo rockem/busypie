@@ -19,12 +19,12 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/rockem/busypie",
     packages=['busypie'],
+    setup_requires=["pytest-runner"],
     install_require=[
 
     ],
     tests_require=[
-        'pytest==5.3.2',
-        'pytest-runner==5.2'
+        'pytest==5.3.2'
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -32,6 +32,4 @@ setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.5',
-    setup_requires=["pytest-runner"],
-    tests_require=["pytest"]
 )
