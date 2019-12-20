@@ -18,8 +18,14 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/rockem/busypie",
-    packages=find_packages(),
-    install_requires=requirements,
+    packages=['busypie'],
+    install_requires=[
+
+    ],
+    tests_requires=[
+        'pytest==5.3.2',
+        'pytest-runner==5.2'
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache-2.0",
