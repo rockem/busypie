@@ -8,7 +8,7 @@ from .durations import MILLISECOND, SECOND, MINUTE, HOUR, \
 __all__ = [
     'wait',
     'ConditionTimeoutError',
-    
+
     # Durations
     'MILLISECOND', 'SECOND', 'MINUTE', 'HOUR',
     'FIVE_HUNDRED_MILLISECONDS',
