@@ -22,5 +22,5 @@ class ConditionBuilder:
             if func():
                 break
             if (time.time() - start_time) > self.wait_time_in_secs:
-                raise ConditionTimeoutError(f"Failed to meet condition of {func.__name__} within 10 seconds")
+                raise ConditionTimeoutError("Failed to meet condition of {} within 10 seconds".format(func.__name__))
             sleep(0.01)

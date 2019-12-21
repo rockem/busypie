@@ -1,5 +1,5 @@
 from busypie.durations import SECOND
-from condition import ConditionBuilder
+from busypie.condition import ConditionBuilder
 
 
 def wait():
