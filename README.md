@@ -1,6 +1,6 @@
 # BusyPie
 [![GitHub Actions](https://github.com/rockem/busypie/workflows/Build/badge.svg)](https://github.com/rockem/busypie/actions)
-[![Release](https://img.shields.io/github/v/release/rockem/busypie)](https://github.com/rockem/busypie/releases/0.0.3)
+[![Release](https://img.shields.io/github/v/release/rockem/busypie)](https://github.com/rockem/busypie/releases)
 [![License](http://img.shields.io/:license-apache2.0-blue.svg)](https://github.com/rockem/busypie/blob/master/LICENSE)
 
 Although you wouldn't want to do much busy waiting in your production code, 
