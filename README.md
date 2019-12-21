@@ -1,6 +1,6 @@
 # BusyPie
 [![Release](https://img.shields.io/github/release/rockem/busypie.svg)](https://github.com/rockem/busypie/releases/0.0.3)
-[![License](http://img.shields.io/:license-apache2.0-red.svg)](http://doge.mit-license.org)
+![License](https://img.shields.io/hexpm/l/busypie)
 
 You wouldn't want to do much busy waiting in your production code, 
 but when testing asynchronous systems, it's very helpful. 
