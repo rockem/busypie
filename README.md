@@ -1,5 +1,5 @@
 # BusyPie
-[![GitHub Actions](https://github.com/rockem/busypie/workflows/build-and-test/badge.svg)](https://github.com/rockem/busypie/actions)
+[![GitHub Actions](https://github.com/rockem/busypie/workflows/Build%20and%20Test/badge.svg)](https://github.com/rockem/busypie/actions)
 [![Release](https://img.shields.io/github/release/rockem/busypie.svg)](https://github.com/rockem/busypie/releases/0.0.3)
 [![License](http://img.shields.io/:license-apache2.0-blue.svg)](https://github.com/rockem/busypie/blob/master/LICENSE)
 
