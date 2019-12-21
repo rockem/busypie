@@ -1,4 +1,5 @@
 import time
+from copy import deepcopy
 from time import sleep
 
 import busypie
@@ -8,17 +9,19 @@ _DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 
 
 class ConditionBuilder:
-
-    def __init__(self):
-        self._condition = Condition()
+    def __init__(self, condition=None):
+        self._condition = Condition() if condition is None else condition
 
     def at_most(self, value, unit=SECOND):
         self._condition.wait_time_in_secs = value * unit
-        return self
+        return self._new_builder_with_cloned_condition()
+
+    def _new_builder_with_cloned_condition(self):
+        return ConditionBuilder(deepcopy(self._condition))
 
     def ignore_exceptions(self):
         self._condition.ignore_all_exceptions = True
-        return self
+        return self._new_builder_with_cloned_condition()
 
     def until(self, func):
         ConditionAwaiter(self._condition).wait_for(func)
@@ -30,7 +33,6 @@ class Condition:
 
 
 class ConditionAwaiter:
-
     def __init__(self, condition):
         self._condition = condition
 
@@ -42,14 +44,14 @@ class ConditionAwaiter:
                     break
             except Exception as e:
                 self._raise_exception_if_needed(e)
-            self.validate_wait_constraint(func.__name__, start_time)
+            self._validate_wait_constraint(func.__name__, start_time)
             sleep(ONE_HUNDRED_MILLISECONDS)
 
     def _raise_exception_if_needed(self, e):
         if not self._condition.ignore_all_exceptions:
             raise e
 
-    def validate_wait_constraint(self, func_name, start_time):
+    def _validate_wait_constraint(self, func_name, start_time):
         if (time.time() - start_time) > self._condition.wait_time_in_secs:
             raise busypie.ConditionTimeoutError("Failed to meet condition of {} within {} seconds"
                                         .format(func_name, self._condition.wait_time_in_secs))
