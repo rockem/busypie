@@ -9,11 +9,11 @@ it's very helpful to wait for somescenario to finish its course.
 BusyPie will help you to do busy waiting easily and expressively. 
 
 ## Installation
-To install using pip 
+To install it using pip 
 ```shell script
 python -m pip install busypie
 ```
-To include it in requirements.txt file add: 
+To include it in *requirements.txt* file add
 ```text
 busypie==0.1
 ```
