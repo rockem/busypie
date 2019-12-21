@@ -1,4 +1,4 @@
-from .core import wait
+from .core import wait, wait_at_most
 from .errors import ConditionTimeoutError
 from .durations import MILLISECOND, SECOND, MINUTE, HOUR, \
     FIVE_HUNDRED_MILLISECONDS, \
@@ -6,7 +6,7 @@ from .durations import MILLISECOND, SECOND, MINUTE, HOUR, \
     ONE_MINUTE, FIVE_MINUTES, TEN_MINUTES
 
 __all__ = [
-    'wait',
+    'wait', 'wait_at_most',
     'ConditionTimeoutError',
 
     # Durations

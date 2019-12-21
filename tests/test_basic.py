@@ -3,8 +3,7 @@ from time import sleep
 
 import pytest
 
-from busypie import wait, ConditionTimeoutError, FIVE_HUNDRED_MILLISECONDS, MILLISECOND
-from core import wait_at_most
+from busypie import wait, ConditionTimeoutError, FIVE_HUNDRED_MILLISECONDS, MILLISECOND, wait_at_most
 
 
 def test_wait_until_condition_passed():
