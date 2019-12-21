@@ -1,0 +1,2 @@
+class ConditionTimeoutError(Exception):
+    pass

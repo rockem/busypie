@@ -1,13 +1,12 @@
+from busypie.durations import SECOND
+from condition import ConditionBuilder
+
 
 def wait():
     return ConditionBuilder()
 
 
-class ConditionBuilder:
-
-    def until(self, func):
-        pass
+def wait_at_most(value, unit=SECOND):
+    return ConditionBuilder().at_most(value, unit)
 
 
-class ConditionTimeoutError(Exception):
-    pass
