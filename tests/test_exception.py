@@ -15,3 +15,10 @@ def raise_error():
 def test_fail_on_exception_if_not_ignored():
     with pytest.raises(ZeroDivisionError):
         wait().at_most(ONE_SECOND).until(raise_error)
+
+
+def test_fail_on_exception_if_not_specified():
+    with pytest.raises(ZeroDivisionError):
+        wait().ignore_exceptions(AttributeError).at_most(ONE_SECOND).until(raise_error)
+    with pytest.raises(ConditionTimeoutError):
+        wait().ignore_exceptions(AttributeError, ZeroDivisionError).at_most(ONE_SECOND).until(raise_error)

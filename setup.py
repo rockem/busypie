@@ -17,9 +17,6 @@ setup(
     url="https://github.com/rockem/busypie",
     packages=['busypie'],
     setup_requires=["pytest-runner"],
-    install_require=[
-
-    ],
     tests_require=[
         'pytest==5.3.2',
         'pytest-timeout==1.3.3'

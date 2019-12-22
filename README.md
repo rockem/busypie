@@ -42,6 +42,7 @@ wait_at_most(10, SECONDS).until(condition_function)
 Ignoring exceptions thrown from condition function
 ```python
 wait().ignore_exceptions().until(condiction_function)
+wait().ignore_exceptions(ZeroDevisionError).until(condiction_function)
 ```
 
 ## Credits
