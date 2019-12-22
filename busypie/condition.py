@@ -19,8 +19,8 @@ class ConditionBuilder:
     def _new_builder_with_cloned_condition(self):
         return ConditionBuilder(deepcopy(self._condition))
 
-    def ignore_exceptions(self):
-        self._condition.ignore_all_exceptions = True
+    def ignore_exceptions(self, *excludes):
+        self._condition.ignored_exceptions = excludes
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
@@ -29,7 +29,7 @@ class ConditionBuilder:
 
 class Condition:
     wait_time_in_secs = _DEFAULT_MAX_WAIT_TIME
-    ignore_all_exceptions = False
+    ignored_exceptions = None
 
 
 class ConditionAwaiter:
@@ -48,13 +48,13 @@ class ConditionAwaiter:
             sleep(ONE_HUNDRED_MILLISECONDS)
 
     def _raise_exception_if_needed(self, e):
-        if not self._condition.ignore_all_exceptions:
+        if self._condition.ignored_exceptions is None:
             raise e
 
     def _validate_wait_constraint(self, func_name, start_time):
         if (time.time() - start_time) > self._condition.wait_time_in_secs:
             raise busypie.ConditionTimeoutError("Failed to meet condition of {} within {} seconds"
-                                        .format(func_name, self._condition.wait_time_in_secs))
+                                                .format(func_name, self._condition.wait_time_in_secs))
 
 
 class ConditionTimeoutError(Exception):
