@@ -48,7 +48,7 @@ class ConditionAwaiter:
             sleep(ONE_HUNDRED_MILLISECONDS)
 
     def _raise_exception_if_needed(self, e):
-        if self._condition.ignored_exceptions is None:
+        if self._condition.ignored_exceptions is None or e.__class__ not in self._condition.ignored_exceptions:
             raise e
 
     def _validate_wait_constraint(self, func_name, start_time):
