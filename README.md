@@ -5,7 +5,7 @@
 
 Although you wouldn't want to do much busy waiting in your production code, 
 Testing is a different matter. When testing asynchronous systems, 
-it's very helpful to wait for somescenario to finish its course. 
+it's very helpful to wait for some scenario to finish its course. 
 BusyPie will help you to do busy waiting easily and expressively. 
 
 ## Installation
@@ -39,7 +39,7 @@ wait_at_most(FIVE_SECONDS).until(condition_function)
 wait().at_most(10, SECOND).until(condition_function)
 wait_at_most(10, SECONDS).until(condition_function)    
 ```
-Ignoring exceptions thrown from condition function
+Ignoring exceptions thrown from a condition function
 ```python
 wait().ignore_exceptions().until(condiction_function)
 wait().ignore_exceptions(ZeroDevisionError).until(condiction_function)
