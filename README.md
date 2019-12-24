@@ -42,8 +42,14 @@ wait_at_most(10, SECONDS).until(condition_function)
 Ignoring exceptions thrown from a condition function
 ```python
 wait().ignore_exceptions().until(condiction_function)
-wait().ignore_exceptions(ZeroDevisionError).until(condiction_function) # will be available in 0.2
+wait().ignore_exceptions(ZeroDevisionError).until(condiction_function) # v >= 0.2
 ```
+Controlling poll interval
+```python
+wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(condiction_function) # v >= 0.2
+wait().poll_interval(2, SECOND).until(condiction_function) # v >= 0.2
+```
+
 
 ## Credits
 This project took a lot of inspiration from [Awaitility](https://github.com/awaitility/awaitility)

@@ -23,6 +23,10 @@ class ConditionBuilder:
         self._condition.ignored_exceptions = excludes
         return self._new_builder_with_cloned_condition()
 
+    def poll_interval(self, value, unit=SECOND):
+        self._condition.poll_interval = value * unit
+        return self._new_builder_with_cloned_condition()
+
     def until(self, func):
         ConditionAwaiter(self._condition).wait_for(func)
 
@@ -30,6 +34,7 @@ class ConditionBuilder:
 class Condition:
     wait_time_in_secs = _DEFAULT_MAX_WAIT_TIME
     ignored_exceptions = None
+    poll_interval = ONE_HUNDRED_MILLISECONDS
 
 
 class ConditionAwaiter:
@@ -45,7 +50,7 @@ class ConditionAwaiter:
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
             self._validate_wait_constraint(func.__name__, start_time)
-            sleep(ONE_HUNDRED_MILLISECONDS)
+            sleep(self._condition.poll_interval)
 
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions
