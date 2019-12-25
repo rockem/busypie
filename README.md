@@ -1,5 +1,6 @@
+<<<<<<< HEAD
 <p align="center">
-  <img src="doc/readme-logo.png"/>
+  <img src="https://raw.githubusercontent.com/rockem/busypie/feature/9-during/doc/readme-logo.png"/>
 </p>
 <p align="center">
   busy-wait for python lovers
@@ -10,6 +11,7 @@
   <a href="https://github.com/rockem/busypie/blob/master/LICENSE"><img src="http://img.shields.io/:license-apache2.0-blue.svg"/></a>
 </p>
 
+## Intro
 Although you wouldn't want to do much busy waiting in your production code, 
 Testing is a different matter. When testing asynchronous systems, 
 it's very helpful to wait for some scenario to finish its course. 
