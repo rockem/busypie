@@ -2,7 +2,7 @@
   <img src="https://raw.githubusercontent.com/rockem/busypie/feature/9-during/doc/readme-logo.png" width="120"/>
 </p>
 <p align="center">
-  easy and expressive Python busy-waiting
+  <strong>easy and expressive Python busy-waiting</strong>
 </p>
 <p align="center">
   <a href="https://github.com/rockem/busypie/actions"><img src="https://github.com/rockem/busypie/workflows/Build/badge.svg"/></a>
