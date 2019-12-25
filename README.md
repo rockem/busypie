@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/rockem/busypie/feature/9-during/doc/readme-logo2.png" width="120"/>
+  <img src="doc/readme-logo2.png" width="120"/>
 </p>
 <p align="center">
   <strong>Easy and expressive busy-waiting for Python</strong>
