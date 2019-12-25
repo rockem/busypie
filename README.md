@@ -1,7 +1,14 @@
-# BusyPie ![logo](https://raw.githubusercontent.com/rockem/busypie/feature/9-during/doc/small-logo.png)
-[![GitHub Actions](https://github.com/rockem/busypie/workflows/Build/badge.svg)](https://github.com/rockem/busypie/actions)
-[![Release](https://img.shields.io/github/v/release/rockem/busypie)](https://github.com/rockem/busypie/releases)
-[![License](http://img.shields.io/:license-apache2.0-blue.svg)](https://github.com/rockem/busypie/blob/master/LICENSE)
+<p align="center">
+  <img src="doc/readme-logo.png"/>
+</p>
+<p align="center">
+  busy-wait for python lovers
+</p>
+<p align="center">
+  <a href="https://github.com/rockem/busypie/actions"><img src="https://github.com/rockem/busypie/workflows/Build/badge.svg"/></a>
+  <a href="https://github.com/rockem/busypie/releases"><img src="https://img.shields.io/github/v/release/rockem/busypie"/></a>
+  <a href="https://github.com/rockem/busypie/blob/master/LICENSE"><img src="http://img.shields.io/:license-apache2.0-blue.svg"/></a>
+</p>
 
 Although you wouldn't want to do much busy waiting in your production code, 
 Testing is a different matter. When testing asynchronous systems, 
