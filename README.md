@@ -1,4 +1,4 @@
-# BusyPie
+# BusyPie ![logo](https://raw.githubusercontent.com/rockem/busypie/feature/9-during/doc/small-logo.png)
 [![GitHub Actions](https://github.com/rockem/busypie/workflows/Build/badge.svg)](https://github.com/rockem/busypie/actions)
 [![Release](https://img.shields.io/github/v/release/rockem/busypie)](https://github.com/rockem/busypie/releases)
 [![License](http://img.shields.io/:license-apache2.0-blue.svg)](https://github.com/rockem/busypie/blob/master/LICENSE)
