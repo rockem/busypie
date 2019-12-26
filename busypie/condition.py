@@ -28,10 +28,14 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        ConditionAwaiter(self._condition, lambda f: f()).wait_for(func)
+        ConditionAwaiter(
+            condition=self._condition,
+            func_checker=lambda f: f()).wait_for(func)
 
     def during(self, func):
-        ConditionAwaiter(self._condition, lambda f: not f()).wait_for(func)
+        ConditionAwaiter(
+            condition=self._condition,
+            func_checker=lambda f: not f()).wait_for(func)
 
 
 class Condition:
