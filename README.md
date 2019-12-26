@@ -39,6 +39,7 @@ def test_event_should_be_dispatched():
 Wait for a condition. Default wait time is 10 seconds.
 ```python
 wait().until(condiction_function)
+wait().during(condition_function) # v >= 0.2
 ```
 Specify maximum time to meet the condition 
 ```python
