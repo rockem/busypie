@@ -1,8 +1,16 @@
-# BusyPie
-[![GitHub Actions](https://github.com/rockem/busypie/workflows/Build/badge.svg)](https://github.com/rockem/busypie/actions)
-[![Release](https://img.shields.io/github/v/release/rockem/busypie)](https://github.com/rockem/busypie/releases)
-[![License](http://img.shields.io/:license-apache2.0-blue.svg)](https://github.com/rockem/busypie/blob/master/LICENSE)
+<p align="center">
+  <img src="doc/readme-logo.png" width="120"/>
+</p>
+<p align="center">
+  <strong>Easy and expressive busy-waiting for Python</strong>
+</p>
+<p align="center">
+  <a href="https://github.com/rockem/busypie/actions"><img src="https://github.com/rockem/busypie/workflows/Build/badge.svg"/></a>
+  <a href="https://github.com/rockem/busypie/releases"><img src="https://img.shields.io/github/v/release/rockem/busypie"/></a>
+  <a href="https://github.com/rockem/busypie/blob/master/LICENSE"><img src="http://img.shields.io/:license-apache2.0-blue.svg"/></a>
+</p>
 
+## Intro
 Although you wouldn't want to do much busy waiting in your production code, 
 Testing is a different matter. When testing asynchronous systems, 
 it's very helpful to wait for some scenario to finish its course. 
@@ -31,6 +39,7 @@ def test_event_should_be_dispatched():
 Wait for a condition. Default wait time is 10 seconds.
 ```python
 wait().until(condiction_function)
+wait().during(condition_function) # v >= 0.2
 ```
 Specify maximum time to meet the condition 
 ```python

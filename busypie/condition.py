@@ -28,7 +28,14 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        ConditionAwaiter(self._condition).wait_for(func)
+        ConditionAwaiter(
+            condition=self._condition,
+            func_checker=lambda f: f()).wait_for(func)
+
+    def during(self, func):
+        ConditionAwaiter(
+            condition=self._condition,
+            func_checker=lambda f: not f()).wait_for(func)
 
 
 class Condition:
@@ -38,14 +45,15 @@ class Condition:
 
 
 class ConditionAwaiter:
-    def __init__(self, condition):
+    def __init__(self, condition, func_checker):
         self._condition = condition
+        self._func_check = func_checker
 
     def wait_for(self, func):
         start_time = time.time()
         while True:
             try:
-                if func():
+                if self._func_check(func):
                     break
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
