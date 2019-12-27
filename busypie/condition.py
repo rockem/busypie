@@ -9,8 +9,10 @@ _DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 
 
 class ConditionBuilder:
+
     def __init__(self, condition=None):
         self._condition = Condition() if condition is None else condition
+        self.wait_at_most = self.at_most
 
     def at_most(self, value, unit=SECOND):
         self._condition.wait_time_in_secs = value * unit
