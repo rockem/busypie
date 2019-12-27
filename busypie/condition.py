@@ -23,6 +23,9 @@ class ConditionBuilder:
         self._condition.ignored_exceptions = excludes
         return self._new_builder_with_cloned_condition()
 
+    def wait(self):
+        return self._new_builder_with_cloned_condition()
+
     def poll_interval(self, value, unit=SECOND):
         self._condition.poll_interval = value * unit
         return self._new_builder_with_cloned_condition()
