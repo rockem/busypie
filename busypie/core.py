@@ -8,3 +8,7 @@ def wait():
 
 def wait_at_most(value, unit=SECOND):
     return wait().at_most(value, unit)
+
+
+def given():
+    return ConditionBuilder()

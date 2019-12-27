@@ -9,8 +9,10 @@ _DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 
 
 class ConditionBuilder:
+
     def __init__(self, condition=None):
         self._condition = Condition() if condition is None else condition
+        self.wait_at_most = self.at_most
 
     def at_most(self, value, unit=SECOND):
         self._condition.wait_time_in_secs = value * unit
@@ -21,6 +23,9 @@ class ConditionBuilder:
 
     def ignore_exceptions(self, *excludes):
         self._condition.ignored_exceptions = excludes
+        return self._new_builder_with_cloned_condition()
+
+    def wait(self):
         return self._new_builder_with_cloned_condition()
 
     def poll_interval(self, value, unit=SECOND):
