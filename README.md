@@ -50,7 +50,7 @@ wait_at_most(10, SECONDS).until(condition_function)
 ```
 Ignoring exceptions thrown from a condition function
 ```python
-wait().ignore_exceptions().until(condiction_function)
+given().ignore_exceptions().wait().until(condiction_function) # given will be available on v0.2
 wait().ignore_exceptions(ZeroDevisionError).until(condiction_function) # v >= 0.2
 ```
 Controlling poll interval
