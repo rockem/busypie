@@ -1,8 +1,10 @@
 import time
 from contextlib import contextmanager
 
+import pytest
+
 from busypie import wait, FIVE_HUNDRED_MILLISECONDS, MILLISECOND
-from condition import DEFAULT_POLL_DELAY
+from busypie.condition import DEFAULT_POLL_DELAY
 
 
 def test_poll_with_specific_interval():
@@ -20,17 +22,24 @@ def verify_poll_interval_is(interval):
 
 
 def test_default_delay():
+    with verify_delay_is(DEFAULT_POLL_DELAY) as recorder:
+        wait().until(lambda: recorder.record())
+
+def test_fail_on_delay_longer_than_max_wait_time():
+    with pytest.raises(DelayLongerThanMaxWaitError)
+
+
+@contextmanager
+def verify_delay_is(delay):
     interval_recorder = IntervalRecorder()
     interval_recorder.record()
-    wait().until(lambda: interval_recorder.record())
-    assert DEFAULT_POLL_DELAY <= interval_recorder.interval() <= DEFAULT_POLL_DELAY + 0.01
+    yield interval_recorder
+    assert delay <= interval_recorder.interval() <= delay + 0.01
 
 
 def test_delay_with_specific_value():
-    interval_recorder = IntervalRecorder()
-    interval_recorder.record()
-    wait().poll_delay(FIVE_HUNDRED_MILLISECONDS).until(lambda: interval_recorder.record())
-    assert FIVE_HUNDRED_MILLISECONDS <= interval_recorder.interval() <= FIVE_HUNDRED_MILLISECONDS + 0.01
+    with verify_delay_is(FIVE_HUNDRED_MILLISECONDS) as recorder:
+        wait().poll_delay(FIVE_HUNDRED_MILLISECONDS).until(lambda: recorder.record())
 
 
 class IntervalRecorder:
