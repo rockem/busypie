@@ -5,7 +5,9 @@ from time import sleep
 import busypie
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
 
-_DEFAULT_MAX_WAIT_TIME = 10 * SECOND
+DEFAULT_MAX_WAIT_TIME = 10 * SECOND
+DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS
+DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 
 class ConditionBuilder:
@@ -32,6 +34,10 @@ class ConditionBuilder:
         self._condition.poll_interval = value * unit
         return self._new_builder_with_cloned_condition()
 
+    def poll_delay(self, value):
+        self._condition.poll_delay = value
+        return self._new_builder_with_cloned_condition()
+
     def until(self, func):
         ConditionAwaiter(
             condition=self._condition,
@@ -42,11 +48,24 @@ class ConditionBuilder:
             condition=self._condition,
             func_checker=lambda f: not f()).wait_for(func)
 
+    def __eq__(self, other):
+        if not isinstance(other, ConditionBuilder):
+            return False
+        return self._condition == other._condition
+
 
 class Condition:
-    wait_time_in_secs = _DEFAULT_MAX_WAIT_TIME
+    wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
     ignored_exceptions = None
-    poll_interval = ONE_HUNDRED_MILLISECONDS
+    poll_interval = DEFAULT_POLL_INTERVAL
+    poll_delay = DEFAULT_POLL_DELAY
+
+    def __eq__(self, other):
+        if not isinstance(other, Condition):
+            return False
+        return self.wait_time_in_secs == other.wait_time_in_secs and \
+            self.ignored_exceptions == other.ignored_exceptions and \
+            self.poll_interval == other.poll_interval
 
 
 class ConditionAwaiter:
@@ -56,6 +75,7 @@ class ConditionAwaiter:
 
     def wait_for(self, func):
         start_time = time.time()
+        sleep(self._condition.poll_delay)
         while True:
             try:
                 if self._func_check(func):
