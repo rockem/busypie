@@ -53,10 +53,14 @@ Ignoring exceptions thrown from a condition function
 given().ignore_exceptions().wait().until(condiction_function) # given will be available on v0.2
 wait().ignore_exceptions(ZeroDevisionError).until(condiction_function) # v >= 0.2
 ```
-Controlling poll interval
+Changing poll interval
 ```python
 wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(condiction_function) # v >= 0.2
 wait().poll_interval(2, SECOND).until(condiction_function) # v >= 0.2
+```
+Changing polling delay
+```python
+wait().poll_delay(SECOND).during(app_is_pending) # v >= 0.2
 ```
 
 
