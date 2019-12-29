@@ -5,7 +5,6 @@ import pytest
 
 from busypie import wait, FIVE_HUNDRED_MILLISECONDS, MILLISECOND, SECOND
 from busypie.condition import DEFAULT_POLL_DELAY
-from condition import ArgumentError
 
 
 def test_poll_with_specific_interval():

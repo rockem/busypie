@@ -10,5 +10,3 @@ def test_combine_wait_and_at_most():
     assert wait().at_most(ONE_SECOND) == wait_at_most(ONE_SECOND)
     assert wait().at_most(2, MILLISECOND) == wait_at_most(2, MILLISECOND)
     assert given().wait_at_most(2, MILLISECOND) == wait().at_most(2, MILLISECOND)
-
-

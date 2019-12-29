@@ -12,7 +12,7 @@ class ConditionAwaiter:
 
     def _validate_condition(self):
         if self._condition.poll_delay > self._condition.wait_time_in_secs:
-            raise ValueError('Poll delay should be smaller than maximum wait constraint')
+            raise ValueError('Poll delay should be shorter than maximum wait constraint')
 
     def wait_for(self, func):
         start_time = time.time()

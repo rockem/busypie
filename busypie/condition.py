@@ -22,8 +22,17 @@ class ConditionBuilder:
         self.poll_interval = partial(self._time_property, name='poll_interval')
 
     def _time_property(self, value, unit=SECOND, name=None):
+        self._validate_time_and_unit(value, unit)
         setattr(self._condition, name, value * unit)
         return self._new_builder_with_cloned_condition()
+
+    def _validate_time_and_unit(self, value, unit):
+        self._validate_positive_number(value, 'Time value of {} is not allowed')
+        self._validate_positive_number(unit, 'Unit value of {} is not allowed')
+
+    def _validate_positive_number(self, value, message):
+        if value is None or value < 0:
+            raise ValueError(message.format(value))
 
     def _new_builder_with_cloned_condition(self):
         return ConditionBuilder(deepcopy(self._condition))

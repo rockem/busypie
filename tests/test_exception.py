@@ -1,6 +1,6 @@
 import pytest
 
-from busypie import wait, ConditionTimeoutError, MILLISECOND, ONE_SECOND, FIVE_HUNDRED_MILLISECONDS
+from busypie import wait, ConditionTimeoutError, MILLISECOND, ONE_SECOND
 
 
 def test_should_ignore_all_exceptions():
