@@ -1,13 +1,11 @@
-import os
-
-from setuptools import setup, find_packages
+from setuptools import setup
 
 with open("README.md", "r") as fh:
     readme = fh.read()
 
 setup(
     name="busypie",
-    version="0.2",
+    version="0.2.1",
     author="Eli Segal",
     author_email="eli.segal@gmail.com",
     license='Apache License 2.0',

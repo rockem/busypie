@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="doc/readme-logo.png" width="120"/>
+  <img src="https://raw.githubusercontent.com/rockem/busypie/master/doc/readme-logo.png" width="120"/>
 </p>
 <p align="center">
   <strong>Easy and expressive busy-waiting for Python</strong>
@@ -23,7 +23,7 @@ python -m pip install busypie
 ```
 To include it in *requirements.txt* file add
 ```text
-busypie==0.2
+busypie==0.2.1
 ```
 
 ## Example
