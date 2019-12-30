@@ -1,5 +1,5 @@
 from .core import wait, wait_at_most, given
-from .condition import ConditionTimeoutError
+from .awaiter import ConditionTimeoutError
 from .durations import MILLISECOND, SECOND, MINUTE, HOUR, \
     ONE_HUNDRED_MILLISECONDS, FIVE_HUNDRED_MILLISECONDS, \
     ONE_SECOND, FIVE_SECONDS, TEN_SECONDS, \

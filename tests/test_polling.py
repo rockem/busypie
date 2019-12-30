@@ -1,33 +1,63 @@
 import time
 from contextlib import contextmanager
 
-from busypie import wait, FIVE_HUNDRED_MILLISECONDS, MILLISECOND
+import pytest
+
+from busypie import wait, FIVE_HUNDRED_MILLISECONDS, MILLISECOND, SECOND
+from busypie.condition import DEFAULT_POLL_DELAY
 
 
 def test_poll_with_specific_interval():
     with verify_poll_interval_is(FIVE_HUNDRED_MILLISECONDS) as verifier:
-        wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(verifier.is_done)
+        wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(verifier.record)
     with verify_poll_interval_is(200 * MILLISECOND) as verifier:
-        wait().poll_interval(200, MILLISECOND).until(verifier.is_done)
+        wait().poll_interval(200, MILLISECOND).until(verifier.record)
 
 
 @contextmanager
 def verify_poll_interval_is(interval):
-    interval_counter = IntervalCounter()
-    yield interval_counter
-    assert interval - 0.02 < interval_counter.interval() < interval + 0.02
+    polling_insights = IntervalRecorder()
+    yield polling_insights
+    assert abs(interval - polling_insights.interval()) <= 0.02
 
 
-class IntervalCounter:
-    _start_time = None
+def test_default_delay():
+    with verify_delay_is(DEFAULT_POLL_DELAY) as recorder:
+        wait().until(lambda: recorder.record())
+
+
+@contextmanager
+def verify_delay_is(delay):
+    interval_recorder = IntervalRecorder()
+    interval_recorder.record()
+    yield interval_recorder
+    assert delay <= interval_recorder.interval() <= delay + 0.01
+
+
+@pytest.mark.timeout(2)
+def test_delay_with_specific_value():
+    with verify_delay_is(FIVE_HUNDRED_MILLISECONDS) as recorder:
+        wait().poll_delay(FIVE_HUNDRED_MILLISECONDS).until(lambda: recorder.record())
+    with verify_delay_is(200 * MILLISECOND) as recorder:
+        wait().poll_delay(200, MILLISECOND).until(lambda: recorder.record())
+
+
+@pytest.mark.timeout(1)
+def test_fail_on_delay_longer_than_max_wait_time():
+    with pytest.raises(ValueError):
+        wait().poll_delay(11, SECOND).until(lambda: True)
+
+
+class IntervalRecorder:
+    start_time = None
     _end_time = None
 
-    def is_done(self):
-        if self._start_time:
+    def record(self):
+        if self.start_time:
             self._end_time = time.time()
             return True
-        self._start_time = time.time()
+        self.start_time = time.time()
         return False
 
     def interval(self):
-        return self._end_time - self._start_time
+        return round(self._end_time - self.start_time, 4)
