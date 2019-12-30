@@ -23,7 +23,7 @@ python -m pip install busypie
 ```
 To include it in *requirements.txt* file add
 ```text
-busypie==0.1.1
+busypie==0.2
 ```
 
 ## Example
@@ -39,7 +39,7 @@ def test_event_should_be_dispatched():
 Wait for a condition. Default wait time is 10 seconds.
 ```python
 wait().until(condiction_function)
-wait().during(condition_function) # v >= 0.2
+wait().during(condition_function)
 ```
 Specify maximum time to meet the condition 
 ```python
@@ -50,17 +50,17 @@ wait_at_most(10, SECONDS).until(condition_function)
 ```
 Ignoring exceptions thrown from a condition function
 ```python
-given().ignore_exceptions().wait().until(condiction_function) # given will be available on v0.2
-wait().ignore_exceptions(ZeroDevisionError).until(condiction_function) # v >= 0.2
+given().ignore_exceptions().wait().until(condiction_function)
+wait().ignore_exceptions(ZeroDevisionError).until(condiction_function)
 ```
 Changing poll interval
 ```python
-wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(condiction_function) # v >= 0.2
-wait().poll_interval(2, SECOND).until(condiction_function) # v >= 0.2
+wait().poll_interval(FIVE_HUNDRED_MILLISECONDS).until(condiction_function)
+wait().poll_interval(2, SECOND).until(condiction_function)
 ```
 Changing polling delay
 ```python
-wait().poll_delay(SECOND).during(app_is_pending) # v >= 0.2
+wait().poll_delay(SECOND).during(app_is_pending)
 ```
 
 
