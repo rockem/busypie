@@ -4,9 +4,14 @@ from functools import partial
 from busypie.awaiter import ConditionAwaiter
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
 
-DEFAULT_MAX_WAIT_TIME = 10 * SECOND
+default_max_wait_time = 10 * SECOND
 DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS
 DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
+
+
+def set_default_timeout(value, unit):
+    global default_max_wait_time
+    default_max_wait_time = value * unit
 
 
 class ConditionBuilder:
@@ -45,6 +50,7 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
+        print("2")
         ConditionAwaiter(
             condition=self._condition,
             func_checker=lambda f: f()).wait_for(func)
@@ -65,15 +71,16 @@ class ArgumentError(Exception):
 
 
 class Condition:
-    wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
-    ignored_exceptions = None
-    poll_interval = DEFAULT_POLL_INTERVAL
-    poll_delay = DEFAULT_POLL_DELAY
+    def __init__(self):
+        self.wait_time_in_secs = default_max_wait_time
+        self.ignored_exceptions = None
+        self.poll_interval = DEFAULT_POLL_INTERVAL
+        self.poll_delay = DEFAULT_POLL_DELAY
 
     def __eq__(self, other):
         if not isinstance(other, Condition):
             return False
         return self.wait_time_in_secs == other.wait_time_in_secs and \
-            self.ignored_exceptions == other.ignored_exceptions and \
-            self.poll_interval == other.poll_interval and \
-            self.poll_delay == other.poll_delay
+               self.ignored_exceptions == other.ignored_exceptions and \
+               self.poll_interval == other.poll_interval and \
+               self.poll_delay == other.poll_delay

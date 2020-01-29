@@ -5,7 +5,7 @@ from time import sleep
 import pytest
 
 from busypie import wait, ConditionTimeoutError, \
-    FIVE_HUNDRED_MILLISECONDS, MILLISECOND
+    FIVE_HUNDRED_MILLISECONDS, MILLISECOND, set_default_timeout
 
 
 def test_wait_until_condition_passed():
@@ -32,6 +32,13 @@ def test_timeout_when_condition_did_not_meet_in_time():
 def test_wait_until_condition_fail():
     with assert_countdown_starting_from(2) as c:
         wait().during(lambda: not c.done)
+
+
+@pytest.mark.timeout(0.7)
+def test_set_default_timeout():
+    set_default_timeout(500, MILLISECOND)
+    with pytest.raises(ConditionTimeoutError):
+        wait().until(lambda: 1 == 2)
 
 
 class CountDown:
