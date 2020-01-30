@@ -4,14 +4,29 @@ from functools import partial
 from busypie.awaiter import ConditionAwaiter
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
 
-default_max_wait_time = 10 * SECOND
+DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS
 DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 
-def set_default_timeout(value, unit):
-    global default_max_wait_time
-    default_max_wait_time = value * unit
+# def set_default_timeout(value, unit):
+#     global DEFAULT_MAX_WAIT_TIME
+#     DEFAULT_MAX_WAIT_TIME = value * unit
+
+
+def _time_value_operator(value, unit, visitor):
+    _validate_time_and_unit(value, unit)
+    return visitor(value * unit)
+
+def _validate_time_and_unit(value, unit):
+    _validate_positive_number(value, 'Time value of {} is not allowed')
+    _validate_positive_number(unit, 'Unit value of {} is not allowed')
+
+def _validate_positive_number(value, message):
+    if value is None or value < 0:
+        raise ValueError(message.format(value))
+
+set_default_timeout = partial(_time_value_setter, visitor='')
 
 
 class ConditionBuilder:
@@ -72,7 +87,7 @@ class ArgumentError(Exception):
 
 class Condition:
     def __init__(self):
-        self.wait_time_in_secs = default_max_wait_time
+        self.wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
         self.ignored_exceptions = None
         self.poll_interval = DEFAULT_POLL_INTERVAL
         self.poll_delay = DEFAULT_POLL_DELAY
