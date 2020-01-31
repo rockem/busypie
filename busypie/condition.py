@@ -3,6 +3,7 @@ from functools import partial
 
 from busypie.awaiter import ConditionAwaiter
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
+from busypie.time import time_value_operator
 
 DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS
@@ -16,23 +17,17 @@ class ConditionBuilder:
         self._create_time_based_functions()
 
     def _create_time_based_functions(self):
-        self.at_most = partial(self._time_property, name='wait_time_in_secs')
+        self.at_most = self._time_property_func_for('wait_time_in_secs')
         self.wait_at_most = self.at_most
-        self.poll_delay = partial(self._time_property, name='poll_delay')
-        self.poll_interval = partial(self._time_property, name='poll_interval')
+        self.poll_delay = self._time_property_func_for('poll_delay')
+        self.poll_interval = self._time_property_func_for('poll_interval')
 
-    def _time_property(self, value, unit=SECOND, name=None):
-        self._validate_time_and_unit(value, unit)
-        setattr(self._condition, name, value * unit)
+    def _time_property_func_for(self, name):
+        return partial(time_value_operator, visitor=partial(self._time_property, name=name))
+
+    def _time_property(self, value, name):
+        setattr(self._condition, name, value)
         return self._new_builder_with_cloned_condition()
-
-    def _validate_time_and_unit(self, value, unit):
-        self._validate_positive_number(value, 'Time value of {} is not allowed')
-        self._validate_positive_number(unit, 'Unit value of {} is not allowed')
-
-    def _validate_positive_number(self, value, message):
-        if value is None or value < 0:
-            raise ValueError(message.format(value))
 
     def _new_builder_with_cloned_condition(self):
         return ConditionBuilder(deepcopy(self._condition))
@@ -60,10 +55,6 @@ class ConditionBuilder:
         return self._condition == other._condition
 
 
-class ArgumentError(Exception):
-    pass
-
-
 class Condition:
     wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
     ignored_exceptions = None
@@ -73,7 +64,17 @@ class Condition:
     def __eq__(self, other):
         if not isinstance(other, Condition):
             return False
-        return self.wait_time_in_secs == other.wait_time_in_secs and \
+        return \
+            self.wait_time_in_secs == other.wait_time_in_secs and \
             self.ignored_exceptions == other.ignored_exceptions and \
             self.poll_interval == other.poll_interval and \
             self.poll_delay == other.poll_delay
+
+
+set_default_timeout = partial(
+    time_value_operator,
+    visitor=partial(setattr, Condition, 'wait_time_in_secs'))
+
+
+def reset_defaults():
+    Condition.wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
