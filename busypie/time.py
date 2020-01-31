@@ -1,3 +1,5 @@
+from numbers import Number
+
 from busypie.durations import SECOND
 
 
@@ -12,5 +14,5 @@ def _validate_time_and_unit(value, unit):
 
 
 def _validate_positive_number(value, message):
-    if value is None or value < 0:
+    if value is None or not isinstance(value, Number) or value < 0:
         raise ValueError(message.format(value))
