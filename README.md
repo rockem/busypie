@@ -62,6 +62,14 @@ Changing polling delay
 ```python
 wait().poll_delay(SECOND).during(app_is_pending)
 ```
+Changing the default values of busypie
+```python
+set_default_timeout(60, SECONDS) # Default is 10 seconds
+```
+Resetting default values
+```python
+reset_defaults()
+```
 
 
 ## Credits

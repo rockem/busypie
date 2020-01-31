@@ -1,6 +1,6 @@
-from busypie.durations import SECOND
-from busypie.condition import ConditionBuilder
 import busypie.condition
+from busypie.condition import ConditionBuilder
+from busypie.durations import SECOND
 
 
 def wait():
@@ -15,3 +15,5 @@ def wait_at_most(value, unit=SECOND):
 
 
 set_default_timeout = busypie.condition.set_default_timeout
+
+reset_defaults = busypie.condition.reset_defaults
