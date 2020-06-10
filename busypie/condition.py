@@ -2,7 +2,7 @@ import asyncio
 from copy import deepcopy
 from functools import partial
 
-from awaiter import AsyncConditionAwaiter
+from busypie.awaiter import AsyncConditionAwaiter
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
 from busypie.time import time_value_operator
 
