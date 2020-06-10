@@ -54,6 +54,9 @@ class ConditionBuilder:
     async def until_async(self, func):
         await self._wait_for(func, lambda f: f())
 
+    async def during_async(self, func):
+        await self._wait_for(func, lambda f: not f())
+
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
             return False
