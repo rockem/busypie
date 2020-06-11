@@ -41,6 +41,11 @@ Wait for a condition. Default wait time is 10 seconds.
 wait().until(condiction_function)
 wait().during(condition_function)
 ```
+Python async support
+```python
+await wait().until_async(condiction_function)
+await wait().during_async(condition_function)
+```
 Specify maximum time to meet the condition 
 ```python
 wait().at_most(FIVE_SECONDS).until(condition_function)
@@ -70,7 +75,6 @@ Resetting default values
 ```python
 reset_defaults()
 ```
-
 
 ## Credits
 This project took a lot of inspiration from [Awaitility](https://github.com/awaitility/awaitility)
