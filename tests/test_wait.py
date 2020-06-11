@@ -16,7 +16,7 @@ def test_wait_until_condition_passed():
 @contextmanager
 def assert_done_after(seconds):
     sleeper = Sleeper()
-    sleeper.wake_up_after(seconds)
+    sleeper.sleep_for(seconds)
     yield sleeper
     assert sleeper.done
 
@@ -51,9 +51,9 @@ def test_reset_default_timeout():
 class Sleeper:
     done = False
 
-    def start_from(self, start):
-        Thread(target=self.wake_up_after, args=(start,)).start()
+    def sleep_for(self, start):
+        Thread(target=self._wake_up_after, args=(start,)).start()
 
-    def wake_up_after(self, seconds):
+    def _wake_up_after(self, seconds):
         sleep(seconds)
         self.done = True

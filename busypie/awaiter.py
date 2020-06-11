@@ -1,10 +1,10 @@
-import time
-from time import sleep
+import asyncio
 
 import busypie
+import time
 
 
-class ConditionAwaiter:
+class AsyncConditionAwaiter:
     def __init__(self, condition, func_checker):
         self._condition = condition
         self._func_check = func_checker
@@ -14,9 +14,9 @@ class ConditionAwaiter:
         if self._condition.poll_delay > self._condition.wait_time_in_secs:
             raise ValueError('Poll delay should be shorter than maximum wait constraint')
 
-    def wait_for(self, func):
+    async def wait_for(self, func):
         start_time = time.time()
-        sleep(self._condition.poll_delay)
+        await asyncio.sleep(self._condition.poll_delay)
         while True:
             try:
                 if self._func_check(func):
@@ -24,7 +24,7 @@ class ConditionAwaiter:
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
             self._validate_wait_constraint(func.__name__, start_time)
-            sleep(self._condition.poll_interval)
+            await asyncio.sleep(self._condition.poll_interval)
 
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions

@@ -1,7 +1,8 @@
+import asyncio
 from copy import deepcopy
 from functools import partial
 
-from busypie.awaiter import ConditionAwaiter
+from busypie.awaiter import AsyncConditionAwaiter
 from busypie.durations import SECOND, ONE_HUNDRED_MILLISECONDS
 from busypie.time import time_value_operator
 
@@ -40,14 +41,21 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        ConditionAwaiter(
+        asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: f()))
+
+    def _wait_for(self, func, checker):
+        return AsyncConditionAwaiter(
             condition=self._condition,
-            func_checker=lambda f: f()).wait_for(func)
+            func_checker=checker).wait_for(func)
 
     def during(self, func):
-        ConditionAwaiter(
-            condition=self._condition,
-            func_checker=lambda f: not f()).wait_for(func)
+        asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: not f()))
+
+    async def until_async(self, func):
+        await self._wait_for(func, lambda f: f())
+
+    async def during_async(self, func):
+        await self._wait_for(func, lambda f: not f())
 
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
