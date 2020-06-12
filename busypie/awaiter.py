@@ -34,9 +34,12 @@ class AsyncConditionAwaiter:
 
     def _validate_wait_constraint(self, func_name, start_time):
         if (time.time() - start_time) > self._condition.wait_time_in_secs:
-            raise busypie.ConditionTimeoutError("Failed to meet condition of {} within {} seconds"
-                                                .format(func_name, self._condition.wait_time_in_secs))
+            raise busypie.ConditionTimeoutError(
+                self._condition.description or func_name, self._condition.wait_time_in_secs)
 
 
 class ConditionTimeoutError(Exception):
-    pass
+    def __init__(self, description, wait_time_in_secs):
+        super(ConditionTimeoutError, self).__init__("Failed to meet condition of [{}] within {} seconds"
+                                                    .format(description, wait_time_in_secs))
+        self.description = description

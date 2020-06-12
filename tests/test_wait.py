@@ -48,6 +48,24 @@ def test_reset_default_timeout():
         wait().until(lambda: c.done)
 
 
+def test_custom_description_on_timeout():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait().at_most(FIVE_HUNDRED_MILLISECONDS).with_description('kuku').until(lambda: False)
+    assert 'kuku' in e.value.args[0]
+    assert 'kuku' == e.value.description
+
+
+def test_default_description_on_timeout():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait().at_most(FIVE_HUNDRED_MILLISECONDS).until(_always_fail_check)
+    assert '_always_fail_check' in e.value.args[0]
+    assert '_always_fail_check' == e.value.description
+
+
+def _always_fail_check():
+    return False
+
+
 class Sleeper:
     done = False
 
