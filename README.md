@@ -23,7 +23,7 @@ python -m pip install busypie
 ```
 To include it in *requirements.txt* file add
 ```text
-busypie==0.3.0
+busypie==0.4.0
 ```
 
 ## Example
@@ -57,6 +57,10 @@ Ignoring exceptions thrown from a condition function
 ```python
 given().ignore_exceptions().wait().until(condiction_function)
 wait().ignore_exceptions(ZeroDevisionError).until(condiction_function)
+```
+Add custom description to show up in timeout error message
+```python
+wait().with_description('check app is running').until(lambda: app_state() == 'UP')
 ```
 Changing poll interval
 ```python
