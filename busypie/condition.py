@@ -40,6 +40,10 @@ class ConditionBuilder:
     def wait(self):
         return self._new_builder_with_cloned_condition()
 
+    def with_description(self, description):
+        self._condition.description = description
+        return self._new_builder_with_cloned_condition()
+
     def until(self, func):
         asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: f()))
 
@@ -68,6 +72,7 @@ class Condition:
     ignored_exceptions = None
     poll_interval = DEFAULT_POLL_INTERVAL
     poll_delay = DEFAULT_POLL_DELAY
+    description = None
 
     def __eq__(self, other):
         if not isinstance(other, Condition):
