@@ -1,4 +1,6 @@
 import asyncio
+import inspect
+import re
 
 import busypie
 import time
@@ -23,7 +25,7 @@ class AsyncConditionAwaiter:
                     break
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
-            self._validate_wait_constraint(func.__name__, start_time)
+            self._validate_wait_constraint(func, start_time)
             await asyncio.sleep(self._condition.poll_interval)
 
     def _raise_exception_if_not_ignored(self, e):
@@ -32,10 +34,25 @@ class AsyncConditionAwaiter:
                 (ignored_exceptions and e.__class__ not in ignored_exceptions):
             raise e
 
-    def _validate_wait_constraint(self, func_name, start_time):
+    def _validate_wait_constraint(self, condition_func, start_time):
         if (time.time() - start_time) > self._condition.wait_time_in_secs:
             raise busypie.ConditionTimeoutError(
-                self._condition.description or func_name, self._condition.wait_time_in_secs)
+                self._condition.description or self._describe(condition_func), self._condition.wait_time_in_secs)
+
+    def _describe(self, func):
+        if self._is_a_lambda(func):
+            return self._content_of(func)
+        return func.__name__
+
+    def _is_a_lambda(self, f):
+        lambda_template = lambda: 0
+        return isinstance(f, type(lambda_template)) and \
+               f.__name__ == lambda_template.__name__
+
+    def _content_of(self, lambda_func):
+        source_line = inspect.getsource(lambda_func)
+        r = re.search(r'lambda:\s*(.+)\s*\)', source_line)
+        return r.group(1)
 
 
 class ConditionTimeoutError(Exception):
