@@ -45,9 +45,9 @@ class AsyncConditionAwaiter:
         return func.__name__
 
     def _is_a_lambda(self, f):
-        lambda_template = lambda: 0
+        lambda_template = lambda: 0  # noqa: E731
         return isinstance(f, type(lambda_template)) and \
-               f.__name__ == lambda_template.__name__
+            f.__name__ == lambda_template.__name__
 
     def _content_of(self, lambda_func):
         source_line = inspect.getsource(lambda_func)
