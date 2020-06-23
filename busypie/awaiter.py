@@ -1,9 +1,10 @@
 import asyncio
 import inspect
 import re
+import time
+from functools import partial
 
 import busypie
-import time
 
 
 class AsyncConditionAwaiter:
@@ -21,7 +22,7 @@ class AsyncConditionAwaiter:
         await asyncio.sleep(self._condition.poll_delay)
         while True:
             try:
-                is_func_async = inspect.iscoroutinefunction(func)
+                is_func_async = self._is_async(func)
                 if (is_func_async and await self._func_check(func)) \
                    or (not is_func_async and self._func_check(func)):
                     break
@@ -29,6 +30,11 @@ class AsyncConditionAwaiter:
                 self._raise_exception_if_not_ignored(e)
             self._validate_wait_constraint(func, start_time)
             await asyncio.sleep(self._condition.poll_interval)
+
+    def _is_async(self, func):
+        while isinstance(func, partial):
+            func = func.func
+        return inspect.iscoroutinefunction(func)
 
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions
@@ -44,6 +50,8 @@ class AsyncConditionAwaiter:
     def _describe(self, func):
         if self._is_a_lambda(func):
             return self._content_of(func)
+        while isinstance(func, partial):
+            func = func.func
         return func.__name__
 
     def _is_a_lambda(self, f):
