@@ -23,7 +23,7 @@ python -m pip install busypie
 ```
 To include it in *requirements.txt* file add
 ```text
-busypie==0.4.0
+busypie==0.4.1
 ```
 
 ## Example

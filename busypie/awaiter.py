@@ -21,7 +21,9 @@ class AsyncConditionAwaiter:
         await asyncio.sleep(self._condition.poll_delay)
         while True:
             try:
-                if self._func_check(func):
+                is_func_async = inspect.iscoroutinefunction(func)
+                if (is_func_async and await self._func_check(func)) \
+                   or (not is_func_async and self._func_check(func)):
                     break
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
