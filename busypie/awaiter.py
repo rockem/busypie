@@ -31,9 +31,12 @@ class AsyncConditionAwaiter:
             await asyncio.sleep(self._condition.poll_interval)
 
     def _is_async(self, func):
+        return inspect.iscoroutinefunction(self._unpartial(func))
+
+    def _unpartial(self, func):
         while isinstance(func, partial):
             func = func.func
-        return inspect.iscoroutinefunction(func)
+        return func
 
     async def _perform_func_check(self, func, is_func_async):
         return (is_func_async and await self._func_check(func)) \
@@ -53,9 +56,7 @@ class AsyncConditionAwaiter:
     def _describe(self, func):
         if self._is_a_lambda(func):
             return self._content_of(func)
-        while isinstance(func, partial):
-            func = func.func
-        return func.__name__
+        return self._unpartial(func).__name__
 
     def _is_a_lambda(self, f):
         lambda_template = lambda: 0  # noqa: E731
