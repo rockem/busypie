@@ -20,11 +20,10 @@ class AsyncConditionAwaiter:
     async def wait_for(self, func):
         start_time = time.time()
         await asyncio.sleep(self._condition.poll_delay)
+        is_func_async = self._is_async(func)
         while True:
             try:
-                is_func_async = self._is_async(func)
-                if (is_func_async and await self._func_check(func)) \
-                   or (not is_func_async and self._func_check(func)):
+                if await self._perform_func_check(func, is_func_async):
                     break
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
@@ -35,6 +34,10 @@ class AsyncConditionAwaiter:
         while isinstance(func, partial):
             func = func.func
         return inspect.iscoroutinefunction(func)
+
+    async def _perform_func_check(self, func, is_func_async):
+        return (is_func_async and await self._func_check(func)) \
+            or (not is_func_async and self._func_check(func))
 
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions
