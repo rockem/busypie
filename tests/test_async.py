@@ -32,7 +32,7 @@ async def test_wait_until_done_with_delay(sleeper):
 
 
 @pytest.mark.asyncio
-async def test_wait_until_done_with_too_much_delay(sleeper):
+async def test_wait_until_done_fail_on_timeout(sleeper):
     await asyncio.gather(
         wait_until_awake_with_too_much_delay(sleeper),
         sleeper.sleep_for_a_bit())
