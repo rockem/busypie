@@ -22,7 +22,7 @@ def describe(func):
 def _is_a_lambda(func):
     lambda_template = lambda: 0  # noqa: E731
     return isinstance(func, type(lambda_template)) and \
-           func.__name__ == lambda_template.__name__
+        func.__name__ == lambda_template.__name__
 
 
 def _content_of(lambda_func):
