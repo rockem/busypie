@@ -59,7 +59,7 @@ class ConditionBuilder:
         return await self._wait_for(func, lambda f: f())
 
     async def during_async(self, func):
-        return await self._wait_for(func, lambda f: not f())
+        await self._wait_for(func, lambda f: not f())
 
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
