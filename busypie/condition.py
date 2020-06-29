@@ -45,7 +45,7 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: f()))
+        return asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: f()))
 
     def _wait_for(self, func, checker):
         return AsyncConditionAwaiter(
@@ -56,7 +56,7 @@ class ConditionBuilder:
         asyncio.get_event_loop().run_until_complete(self._wait_for(func, lambda f: not f()))
 
     async def until_async(self, func):
-        await self._wait_for(func, lambda f: f())
+        return await self._wait_for(func, lambda f: f())
 
     async def during_async(self, func):
         await self._wait_for(func, lambda f: not f())

@@ -1,4 +1,3 @@
-
 # Time definitions in seconds
 MILLISECOND = 0.001
 SECOND = 1

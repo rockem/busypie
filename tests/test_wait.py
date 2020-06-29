@@ -48,6 +48,10 @@ def test_reset_default_timeout():
         wait().until(lambda: c.done)
 
 
+def test_retrieve_condition_result():
+    assert wait().until(lambda: 3) == 3
+
+
 class Sleeper:
     done = False
 

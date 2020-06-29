@@ -36,12 +36,12 @@ def test_event_should_be_dispatched():
 ```
 
 ## Usage
-Wait for a condition. Default wait time is 10 seconds.
+Wait for a condition. Default wait time is 10 seconds. until() will return the final result of the condition function
 ```python
 wait().until(condition_function)
 wait().during(condition_function)
 ```
-Python async support
+Python async support. until_async() will return the final result of the condition function.
 ```python
 await wait().until_async(condition_function)
 await wait().during_async(condition_function)
