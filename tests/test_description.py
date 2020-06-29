@@ -1,6 +1,7 @@
 from functools import partial
 
 import pytest
+
 from busypie import (ONE_HUNDRED_MILLISECONDS, ConditionTimeoutError,
                      wait_at_most)
 
