@@ -1,6 +1,8 @@
-import pytest
+from functools import partial
 
-from busypie import ConditionTimeoutError, ONE_HUNDRED_MILLISECONDS, wait_at_most
+import pytest
+from busypie import (ONE_HUNDRED_MILLISECONDS, ConditionTimeoutError,
+                     wait_at_most)
 
 
 def test_custom_description_on_timeout():
@@ -19,11 +21,17 @@ def test_condition_function_name_description_on_timeout():
     assert '_always_fail_check' == e.value.description
 
 
+def test_partial_condition_function_name_description_on_timeout():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait_at_most(ONE_HUNDRED_MILLISECONDS).until(partial(_always_fail_check, x=42))
+    assert '_always_fail_check' == e.value.description
+
+
 def test_lambda_content_description_on_timeout():
     with pytest.raises(ConditionTimeoutError) as e:
         wait_at_most(ONE_HUNDRED_MILLISECONDS).until(lambda: 3 == 4)
     assert '3 == 4' == e.value.description
 
 
-def _always_fail_check():
+def _always_fail_check(x=None):
     return False
