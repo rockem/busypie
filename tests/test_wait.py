@@ -52,6 +52,7 @@ def test_retrieve_condition_result():
     assert wait().until(lambda: 3) == 3
 
 
+
 class Sleeper:
     done = False
 
