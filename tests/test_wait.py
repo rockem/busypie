@@ -1,14 +1,23 @@
+import asyncio
 from contextlib import contextmanager
 from threading import Thread
+from time import sleep
 
 import pytest
+from busypie import (FIVE_HUNDRED_MILLISECONDS, MILLISECOND,
+                     ConditionTimeoutError, reset_defaults,
+                     set_default_timeout, wait)
 
-from busypie import wait, ConditionTimeoutError, \
-    FIVE_HUNDRED_MILLISECONDS, MILLISECOND, set_default_timeout, reset_defaults
-from time import sleep
+from backports.asyncio import run
 
 
 def test_wait_until_condition_passed():
+    with assert_done_after(seconds=0.3) as c:
+        wait().until(lambda: c.done)
+
+
+def test_wait_until_condition_passed_after_using_event_loop():
+    run(asyncio.sleep(0.1))
     with assert_done_after(seconds=0.3) as c:
         wait().until(lambda: c.done)
 
