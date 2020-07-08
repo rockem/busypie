@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="busypie",
-    version="0.4.1",
+    version="0.4.3",
     author="Eli Segal",
     author_email="eli.segal@gmail.com",
     license='Apache License 2.0',
@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords="busy wait tdd test builder sleep wait pytest",
     url="https://github.com/rockem/busypie",
-    packages=['busypie'],
+    packages=['busypie', 'backports'],
     setup_requires=["pytest-runner"],
     tests_require=[
         'pytest==5.4.3',
