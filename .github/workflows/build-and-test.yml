@@ -26,6 +26,9 @@ jobs:
         flake8 . --count --max-complexity=6 --max-line-length=127 --show-source --statistics
     - name: Test with pytest
       run: |
+        python setup.py test
+    - name: Test import
+      run: |
         python -m setup install
-        cd tests
-        pytest
+        cd /
+        python -c "import busypie"
