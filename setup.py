@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="busypie",
-    version="0.4.1",
+    version="0.4.2",
     author="Eli Segal",
     author_email="eli.segal@gmail.com",
     license='Apache License 2.0',
