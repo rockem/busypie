@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import find_packages, setup
 
 with open("README.md", "r") as fh:
     readme = fh.read()
@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords="busy wait tdd test builder sleep wait pytest",
     url="https://github.com/rockem/busypie",
-    packages=["busypie"],
+    packages=find_packages(exclude=['tests*']),
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
