@@ -1,5 +1,6 @@
-import asyncio
 from threading import Thread
+
+from backports.asyncio import runners
 
 
 class RunnerThread(Thread):
@@ -13,7 +14,7 @@ class RunnerThread(Thread):
 
     def run(self):
         try:
-            self.result = asyncio.run(self.main, debug=self.debug)
+            self.result = runners.run(self.main, debug=self.debug)
         except BaseException as e:
             self.exception = e
 
