@@ -2,35 +2,9 @@ __all__ = 'run',
 
 import sys
 from asyncio import coroutines, events, tasks
-from threading import Thread
-
-
-class RunThread(Thread):
-
-    def __init__(self, main, *, debug=False):
-        super().__init__()
-        self.result = None
-        self.exception = None
-        self.main = main
-        self.debug = debug
-
-    def run(self):
-        try:
-            self.result = run_async(self.main, debug=self.debug)
-        except BaseException as e:
-            self.exception = e
 
 
 def run(main, *, debug=False):
-    thread = RunThread(main, debug=debug)
-    thread.start()
-    thread.join()
-    if thread.exception:
-        raise thread.exception
-    return thread.result
-
-
-def run_async(main, *, debug=False):
     """Execute the coroutine and return the result.
 
     This function runs the passed coroutine, taking care of
