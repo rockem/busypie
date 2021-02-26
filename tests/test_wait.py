@@ -61,6 +61,13 @@ def test_retrieve_condition_result():
     assert wait().until(lambda: 3) == 3
 
 
+def test_nested_waits():
+    def condition():
+        return wait().until(lambda: True)
+
+    assert wait().until(condition)
+
+
 class Sleeper:
     done = False
 
