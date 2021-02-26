@@ -1,8 +1,6 @@
 import asyncio
 from threading import Thread
 
-from backports.asyncio import runners
-
 
 class RunnerThread(Thread):
 
