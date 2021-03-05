@@ -27,10 +27,12 @@ it's very helpful to wait for some scenario to finish its course.
    :maxdepth: 2
    :caption: Usage
 
-   timeout
-   times
+   basic
    exception
    polling
+   timeout
+   async
+   duration
 
 
 

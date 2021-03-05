@@ -1,13 +1,15 @@
-Times
-=====
+Durations
+=========
 
-Every function in busypie that accepts duration support both number of seconds
+Every function in :pypi:`busypie` that accepts duration, support both number of seconds
 and time/unit input::
 
     wait().at_most(5).until(lambda: app.is_healthy())
     wait().at_most(5, SECONDS).until(lambda: app.is_healthy())
 
-busypie supports these duration constants out of the box
+Predefined durations
+--------------------
+:pypi:`busypie` supports these duration constants out of the box
 
 - MILLISECOND
 - SECOND
