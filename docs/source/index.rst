@@ -27,16 +27,11 @@ it's very helpful to wait for some scenario to finish its course.
    :maxdepth: 2
    :caption: Usage
 
-   basic
    exception
    polling
    timeout
    async
    duration
-
-
-
-
 
 
 Indices and tables

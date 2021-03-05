@@ -1,6 +1,13 @@
 Timeout
 =======
 
+It's possible to specify the timeout either by wait or wait_at_most::
+
+    from busypie import wait, wait_at_most, SECOND
+
+    wait().at_most(5 * SECOND).until(condition_function)
+    wait_at_most(5 * SECOND).until(condition_function)
+
 Timeout error
 -------------
 Upon a timeout busypie will raise a 'ConditionTimeoutError' exception, with the following message::
