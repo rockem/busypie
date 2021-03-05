@@ -8,8 +8,8 @@ It's possible to specify the timeout either by wait or wait_at_most::
     wait().at_most(5 * SECOND).until(condition_function)
     wait_at_most(5 * SECOND).until(condition_function)
 
-Timeout error
--------------
+Timeout description
+-------------------
 Upon a timeout busypie will raise a 'ConditionTimeoutError' exception, with the following message::
 
     Failed to meet condition of <description> within X seconds
