@@ -17,8 +17,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'BusyPie'
-copyright = '2021, Eli Segal'
+project = 'busypie'
+copyright = '2020, Eli Segal'
 author = 'Eli Segal'
 
 # The full version, including alpha/beta/rc tags
@@ -31,7 +31,19 @@ release = '0.4.4'
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx_rtd_theme",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.mathjax",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.extlinks"
 ]
+
+extlinks = {
+    "pypi": ("https://pypi.python.org/pypi/%s", ""),
+    "github": ("https://github.com/%s", "github:/"),
+    "issue":  ("https://github.com/behave/behave/issue/%s", "issue #")
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -47,7 +59,7 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
