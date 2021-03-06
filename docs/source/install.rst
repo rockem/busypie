@@ -8,3 +8,4 @@ In order to install :pypi:`busypie` using :pypi:`pip`, execute this line::
 To update an already installed :pypi:`busypie` version, run::
 
     pip install -U busypie
+
