@@ -2,10 +2,15 @@ Durations
 =========
 
 Every function in :pypi:`busypie` that accepts duration, support both number of seconds
-and time/unit input::
+and time/unit input. For specifying duration with number of seconds do::
 
     wait().at_most(5).until(lambda: app.is_healthy())
+    wait().at_most(2 * MINUTE).until(lambda: app.is_healthy())
+
+Or specify the unit of measurement::
+
     wait().at_most(5, SECONDS).until(lambda: app.is_healthy())
+    wait().at_most(2, MINUTE).until(lambda: app.is_healthy())
 
 Predefined durations
 --------------------

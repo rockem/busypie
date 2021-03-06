@@ -24,7 +24,7 @@ from busypie import wait, SECOND
 
 def test_create_user():
     create_user_from(USER_DETAILS)
-    wait().at_most(2, SECOND).until(lambda: user_created(USER_DETAILS))
+    wait().at_most(2, SECOND).until(lambda: is_user_exists(USER_DETAILS))
 ```
 
 ## Documentation

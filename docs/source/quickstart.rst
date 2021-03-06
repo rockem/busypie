@@ -10,7 +10,7 @@ that require us to wait for something to happen::
         dispatcher.dispatch(event)
         wait().until(event_dispatched)
 
-It's also possible to specify how much time it will wait::
+It's also possible to wait while something happens::
 
     from busypie import wait, MINUTE
 

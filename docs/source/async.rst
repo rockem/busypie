@@ -1,8 +1,8 @@
 Async support
 =============
 
-It's possible to us busypie in an async function,
-and it's supported via 'until_async' function::
+It's possible to use :pypi:`busypie` in an async function.
+It's supported via 'until_async' function::
 
     from busypie import wait
 
