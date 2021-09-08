@@ -61,6 +61,16 @@ class ConditionBuilder:
     async def during_async(self, func):
         await self._wait_for(func, lambda f: not f())
 
+    def until_asserted(self, func):
+        return runner.run(self._wait_for(func, self.check_assert))
+
+    def check_assert(self, f):
+        try:
+            f()
+            return True
+        except AssertionError:
+            return False
+
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
             return False
