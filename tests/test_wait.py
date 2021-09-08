@@ -1,14 +1,10 @@
 import asyncio
-from contextlib import contextmanager
-from threading import Thread
-from time import sleep
 
 import pytest
-from busypie import (FIVE_HUNDRED_MILLISECONDS, MILLISECOND,
-                     ConditionTimeoutError, reset_defaults,
-                     set_default_timeout, wait)
 
 from backports.asyncio import run
+from busypie import (FIVE_HUNDRED_MILLISECONDS, MILLISECOND,
+                     ConditionTimeoutError, wait)
 from tests.sleeper import assert_done_after
 
 

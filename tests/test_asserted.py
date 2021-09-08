@@ -7,7 +7,7 @@ from tests.sleeper import assert_done_after
 
 
 def test_timeout_when_not_asserted_in_time():
-    with pytest.raises(ConditionTimeoutError) as e:
+    with pytest.raises(ConditionTimeoutError):
         wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted(failed_assertion)
 
 
