@@ -31,7 +31,7 @@ def verify_delay_is(delay):
     interval_recorder = IntervalRecorder()
     interval_recorder.record()
     yield interval_recorder
-    assert delay <= interval_recorder.interval() <= delay + 0.01
+    assert delay <= interval_recorder.interval() <= delay + 0.001
 
 
 @pytest.mark.timeout(2)
