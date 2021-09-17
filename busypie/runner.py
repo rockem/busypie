@@ -21,7 +21,7 @@ class RunnerThread(Thread):
 
 def run(main, *, debug=False):
     """
-    Since we're using asyncio loop to run wait() in irder to be compatible with async calls,
+    Since we're using asyncio loop to run wait() in order to be compatible with async calls,
     here we also run each wait in a different thread to allow nested calls to wait()
     """
     thread = RunnerThread(main, debug=debug)
