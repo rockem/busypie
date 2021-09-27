@@ -1,8 +1,8 @@
 Assertion support
 =================
 
-Sometimes it's more convinient to way for an assert to pass instead
-of checking a boolean expression. It's possible to achieve it with the
+Sometimes it's more convenient to wait for an assertion to pass instead
+of checking a boolean expression. It's possible to achieve this with the
 ``until_asserted`` method. It will wait until no AssertionError exception will be thrown::
 
     from busypie import wait
@@ -13,8 +13,9 @@ of checking a boolean expression. It's possible to achieve it with the
 
     def validate_dispatched_event():
         assert event.dispatched
+        assert event.id == VALID_ID
 
-``until_asserted`` support being called inside an async function as well::
+``until_asserted`` supports being called inside an async function as well::
 
     async def test_event_should_be_dispatched():
         dispatcher.dispatch(event)
