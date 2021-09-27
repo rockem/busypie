@@ -30,8 +30,8 @@ it's very helpful to wait for some scenario to finish its course.
    exception
    polling
    timeout
-   async
    duration
+   assert
 
 
 Indices and tables
