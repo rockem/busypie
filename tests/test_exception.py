@@ -22,3 +22,10 @@ def test_fail_on_exception_if_not_specified():
         wait().ignore_exceptions(AttributeError).at_most(ONE_SECOND).until(raise_error)
     with pytest.raises(ConditionTimeoutError):
         wait().ignore_exceptions(AttributeError, ZeroDivisionError).at_most(200, MILLISECOND).until(raise_error)
+
+
+def test_retrieve_cause_on_timeout():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait().ignore_exceptions().at_most(100, MILLISECOND).until(raise_error)
+
+    assert isinstance(e.value.__cause__, ZeroDivisionError)
