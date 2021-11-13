@@ -25,6 +25,13 @@ async def test_await_for_assertion_to_pass():
         sleeper.sleep_for_a_bit())
 
 
+def test_retrieve_assertion_error_as_cause_on_timeout():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted(_failed_assertion)
+
+    assert isinstance(e.value.__cause__, AssertionError)
+
+
 def _failed_assertion():
     assert 1 == 2
 

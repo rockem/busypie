@@ -62,7 +62,8 @@ class ConditionBuilder:
         await self._wait_for(func, lambda f: not f())
 
     def until_asserted(self, func):
-        return runner.run(self._wait_for(func, self._check_assert))
+        self._condition.ignored_exceptions.append(AssertionError)
+        return self._wait_for(func, lambda f: f())
 
     def _check_assert(self, f):
         try:
@@ -82,7 +83,7 @@ class ConditionBuilder:
 
 class Condition:
     wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
-    ignored_exceptions = None
+    ignored_exceptions = []
     poll_interval = DEFAULT_POLL_INTERVAL
     poll_delay = DEFAULT_POLL_DELAY
     description = None
