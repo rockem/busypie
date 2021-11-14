@@ -63,14 +63,11 @@ class ConditionBuilder:
 
     def until_asserted(self, func):
         self._condition.ignored_exceptions.append(AssertionError)
-        return self._wait_for(func, lambda f: f())
+        return runner.run(self._wait_for(func, self._check_assert))
 
     def _check_assert(self, f):
-        try:
-            f()
-            return True
-        except AssertionError:
-            return False
+        f()
+        return True
 
     async def until_asserted_async(self, func):
         await self._wait_for(func, self._check_assert)
