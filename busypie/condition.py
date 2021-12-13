@@ -1,7 +1,7 @@
 from copy import deepcopy
 from functools import partial
 
-from busypie import runner
+from busypie import runner, ConditionTimeoutError
 from busypie.awaiter import AsyncConditionAwaiter
 from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
 from busypie.time import time_value_operator
@@ -47,8 +47,8 @@ class ConditionBuilder:
     def until(self, func):
         return runner.run(self._wait_for(func, lambda f: f()))
 
-    def _wait_for(self, func, checker):
-        return AsyncConditionAwaiter(
+    async def _wait_for(self, func, checker):
+        return await AsyncConditionAwaiter(
             condition=self._condition,
             func_checker=checker).wait_for(func)
 
@@ -66,6 +66,10 @@ class ConditionBuilder:
         return runner.run(self._wait_for(func, self._check_assert))
 
     def _check_assert(self, f):
+        f()
+        return True
+
+    async def _check_assert_async(self, f):
         f()
         return True
 

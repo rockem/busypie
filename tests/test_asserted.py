@@ -28,7 +28,7 @@ async def test_await_for_assertion_to_pass():
 @pytest.mark.asyncio
 async def test_fail_await_when_not_asserted_in_time():
     with pytest.raises(ConditionTimeoutError):
-        await asyncio.gather(wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted_async(_failed_assertion))
+        await wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted_async(_failed_assertion)
 
 
 def test_retrieve_assertion_error_as_cause_on_timeout():
@@ -36,6 +36,10 @@ def test_retrieve_assertion_error_as_cause_on_timeout():
         wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted(_failed_assertion)
 
     assert isinstance(e.value.__cause__, AssertionError)
+
+
+async def _failed_assertion_async():
+    assert 1 == 2
 
 
 def _failed_assertion():

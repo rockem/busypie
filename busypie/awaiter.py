@@ -39,7 +39,7 @@ class AsyncConditionAwaiter:
 
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions
-        if ignored_exceptions and e.__class__ not in ignored_exceptions:
+        if not ignored_exceptions or e.__class__ not in ignored_exceptions:
             raise e
 
     def _validate_wait_constraint(self, condition_func, start_time):
