@@ -39,7 +39,7 @@ def test_retrieve_assertion_error_as_cause_on_timeout():
 
 
 def test_wait_for_async_assertion_to_pass():
-    with assert_done_after(seconds=0.3) as c:
+    with assert_done_after(seconds=0.5) as c:
         wait().until_asserted(partial(_assert_is_done_async, c))
 
 

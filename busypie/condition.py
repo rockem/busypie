@@ -3,8 +3,8 @@ from functools import partial
 
 from busypie import runner
 from busypie.awaiter import AsyncConditionAwaiter
+from busypie.checker import check, negative_check, assert_check
 from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
-from busypie.func import is_async
 from busypie.time import time_value_operator
 
 DEFAULT_MAX_WAIT_TIME = 10 * SECOND
@@ -46,13 +46,7 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        return runner.run(self._wait_for(func, self._check))
-
-    @staticmethod
-    async def _check(f):
-        if is_async(f):
-            return await f()
-        return f()
+        return runner.run(self._wait_for(func, check))
 
     async def _wait_for(self, func, checker):
         return await AsyncConditionAwaiter(
@@ -60,33 +54,21 @@ class ConditionBuilder:
             func_checker=checker).wait_for(func)
 
     def during(self, func):
-        runner.run(self._wait_for(func, self._negative_check))
-
-    @staticmethod
-    async def _negative_check(f):
-        if is_async(f):
-            result = await f()
-            return not result
-        return not f()
+        runner.run(self._wait_for(func, negative_check))
 
     async def until_async(self, func):
-        return await self._wait_for(func, self._check)
+        return await self._wait_for(func, check)
 
     async def during_async(self, func):
-        await self._wait_for(func, self._negative_check)
+        await self._wait_for(func, negative_check)
 
     def until_asserted(self, func):
         self._condition.append_exception(AssertionError)
-        return runner.run(self._wait_for(func, self._check_assert))
-
-    @staticmethod
-    async def _check_assert(f):
-        f()
-        return True
+        return runner.run(self._wait_for(func, assert_check))
 
     async def until_asserted_async(self, func):
         self._condition.append_exception(AssertionError)
-        await self._wait_for(func, self._check_assert)
+        await self._wait_for(func, assert_check)
 
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
