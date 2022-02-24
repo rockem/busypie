@@ -19,10 +19,9 @@ class AsyncConditionAwaiter:
     async def wait_for(self, func):
         start_time = time.time()
         await asyncio.sleep(self._condition.poll_delay)
-        is_func_async = is_async(func)
         while True:
             try:
-                result = await self._perform_func_check(func, is_func_async)
+                result = await self._func_check(func)
                 if result:
                     return result
             except Exception as e:
@@ -31,15 +30,10 @@ class AsyncConditionAwaiter:
             self._validate_wait_constraint(func, start_time)
             await asyncio.sleep(self._condition.poll_interval)
 
-    async def _perform_func_check(self, func, is_func_async):
-        if is_func_async:
-            return await self._func_check(func)
-        else:
-            return self._func_check(func)
-
     def _raise_exception_if_not_ignored(self, e):
         ignored_exceptions = self._condition.ignored_exceptions
-        if not ignored_exceptions or e.__class__ not in ignored_exceptions:
+        if ignored_exceptions is None or \
+                (ignored_exceptions and e.__class__ not in ignored_exceptions):
             raise e
 
     def _validate_wait_constraint(self, condition_func, start_time):

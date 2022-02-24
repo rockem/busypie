@@ -38,6 +38,11 @@ def test_retrieve_assertion_error_as_cause_on_timeout():
     assert isinstance(e.value.__cause__, AssertionError)
 
 
+def test_wait_for_async_assertion_to_pass():
+    with assert_done_after(seconds=0.3) as c:
+        wait().until_asserted(partial(_assert_is_done_async, c))
+
+
 async def _failed_assertion_async():
     assert 1 == 2
 
@@ -47,6 +52,10 @@ def _failed_assertion():
 
 
 def _assert_is_done(sleeper):
+    assert sleeper.done
+
+
+async def _assert_is_done_async(sleeper):
     assert sleeper.done
 
 
