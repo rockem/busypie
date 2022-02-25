@@ -3,6 +3,7 @@ from functools import partial
 
 from busypie import runner
 from busypie.awaiter import AsyncConditionAwaiter
+from busypie.checker import check, negative_check, assert_check
 from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
 from busypie.time import time_value_operator
 
@@ -45,34 +46,29 @@ class ConditionBuilder:
         return self._new_builder_with_cloned_condition()
 
     def until(self, func):
-        return runner.run(self._wait_for(func, lambda f: f()))
+        return runner.run(self._wait_for(func, check))
 
-    def _wait_for(self, func, checker):
-        return AsyncConditionAwaiter(
+    async def _wait_for(self, func, checker):
+        return await AsyncConditionAwaiter(
             condition=self._condition,
             func_checker=checker).wait_for(func)
 
     def during(self, func):
-        runner.run(self._wait_for(func, lambda f: not f()))
+        runner.run(self._wait_for(func, negative_check))
 
     async def until_async(self, func):
-        return await self._wait_for(func, lambda f: f())
+        return await self._wait_for(func, check)
 
     async def during_async(self, func):
-        await self._wait_for(func, lambda f: not f())
+        await self._wait_for(func, negative_check)
 
     def until_asserted(self, func):
-        return runner.run(self._wait_for(func, self._check_assert))
-
-    def _check_assert(self, f):
-        try:
-            f()
-            return True
-        except AssertionError:
-            return False
+        self._condition.append_exception(AssertionError)
+        return runner.run(self._wait_for(func, assert_check))
 
     async def until_asserted_async(self, func):
-        await self._wait_for(func, self._check_assert)
+        self._condition.append_exception(AssertionError)
+        await self._wait_for(func, assert_check)
 
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
@@ -86,6 +82,11 @@ class Condition:
     poll_interval = DEFAULT_POLL_INTERVAL
     poll_delay = DEFAULT_POLL_DELAY
     description = None
+
+    def append_exception(self, exception):
+        if self.ignored_exceptions is None:
+            self.ignored_exceptions = []
+        self.ignored_exceptions.append(exception)
 
     def __eq__(self, other):
         if not isinstance(other, Condition):
