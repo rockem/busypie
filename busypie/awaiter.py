@@ -2,7 +2,7 @@ import asyncio
 
 import busypie
 import time
-from busypie.func import is_async, describe
+from busypie.func import describe
 
 
 class AsyncConditionAwaiter:
