@@ -34,5 +34,5 @@ def test_lambda_content_description_on_timeout():
     assert '3 == 4' == e.value.description
 
 
-def _always_fail_check(x=None):
-    return False
+def _always_fail_check(x=10):
+    return x == 0

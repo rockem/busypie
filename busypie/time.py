@@ -3,7 +3,7 @@ from numbers import Number
 from busypie.durations import SECOND
 
 
-def time_value_operator(value, unit=SECOND, visitor=None):
+def time_value_operator(value: float, unit: float = SECOND, visitor=None):
     _validate_time_and_unit(value, unit)
     return visitor(value * unit)
 

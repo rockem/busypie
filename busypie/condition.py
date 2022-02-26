@@ -1,5 +1,7 @@
+from builtins import Exception
 from copy import deepcopy
 from functools import partial
+from typing import Callable, Type
 
 from busypie import runner
 from busypie.awaiter import AsyncConditionAwaiter
@@ -14,7 +16,7 @@ DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 class ConditionBuilder:
 
-    def __init__(self, condition=None):
+    def __init__(self, condition: 'ConditionBuilder' = None):
         self._condition = Condition() if condition is None else condition
         self._create_time_based_functions()
 
@@ -24,28 +26,28 @@ class ConditionBuilder:
         self.poll_delay = self._time_property_func_for('poll_delay')
         self.poll_interval = self._time_property_func_for('poll_interval')
 
-    def _time_property_func_for(self, name):
+    def _time_property_func_for(self, name: str):
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
 
-    def _time_property(self, value, name):
+    def _time_property(self, value: any, name: str) -> 'ConditionBuilder':
         setattr(self._condition, name, value)
         return self._new_builder_with_cloned_condition()
 
-    def _new_builder_with_cloned_condition(self):
+    def _new_builder_with_cloned_condition(self) -> 'ConditionBuilder':
         return ConditionBuilder(deepcopy(self._condition))
 
-    def ignore_exceptions(self, *excludes):
+    def ignore_exceptions(self, *excludes: Type[Exception]) -> 'ConditionBuilder':
         self._condition.ignored_exceptions = excludes
         return self._new_builder_with_cloned_condition()
 
-    def wait(self):
+    def wait(self) -> 'ConditionBuilder':
         return self._new_builder_with_cloned_condition()
 
-    def with_description(self, description):
+    def with_description(self, description: str) -> 'ConditionBuilder':
         self._condition.description = description
         return self._new_builder_with_cloned_condition()
 
-    def until(self, func):
+    def until(self, func: Callable[[], any]) -> any:
         return runner.run(self._wait_for(func, check))
 
     async def _wait_for(self, func, checker):
@@ -53,22 +55,22 @@ class ConditionBuilder:
             condition=self._condition,
             func_checker=checker).wait_for(func)
 
-    def during(self, func):
+    def during(self, func: Callable[[], any]) -> None:
         runner.run(self._wait_for(func, negative_check))
 
-    async def until_async(self, func):
+    async def until_async(self, func: Callable[[], any]) -> any:
         return await self._wait_for(func, check)
 
-    async def during_async(self, func):
+    async def during_async(self, func: Callable[[], any]) -> None:
         await self._wait_for(func, negative_check)
 
-    def until_asserted(self, func):
+    def until_asserted(self, func: Callable[[], any]) -> any:
         self._condition.append_exception(AssertionError)
         return runner.run(self._wait_for(func, assert_check))
 
-    async def until_asserted_async(self, func):
+    async def until_asserted_async(self, func: Callable[[], any]) -> any:
         self._condition.append_exception(AssertionError)
-        await self._wait_for(func, assert_check)
+        return await self._wait_for(func, assert_check)
 
     def __eq__(self, other):
         if not isinstance(other, ConditionBuilder):
@@ -103,5 +105,5 @@ set_default_timeout = partial(
     visitor=partial(setattr, Condition, 'wait_time_in_secs'))
 
 
-def reset_defaults():
+def reset_defaults() -> None:
     Condition.wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
