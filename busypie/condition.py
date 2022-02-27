@@ -1,13 +1,13 @@
 from builtins import Exception
 from copy import deepcopy
 from functools import partial
-from typing import Callable, Type
+from typing import Type
 
 from busypie import runner
-from busypie.awaiter import AsyncConditionAwaiter
 from busypie.checker import check, negative_check, assert_check
 from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
 from busypie.time import time_value_operator
+from busypie.types import ConditionCallback, Checker
 
 DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS
@@ -16,7 +16,7 @@ DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 class ConditionBuilder:
 
-    def __init__(self, condition: 'ConditionBuilder' = None):
+    def __init__(self, condition: 'Condition' = None):
         self._condition = Condition() if condition is None else condition
         self._create_time_based_functions()
 
@@ -26,7 +26,7 @@ class ConditionBuilder:
         self.poll_delay = self._time_property_func_for('poll_delay')
         self.poll_interval = self._time_property_func_for('poll_interval')
 
-    def _time_property_func_for(self, name: str):
+    def _time_property_func_for(self, name: str) -> partial[[float, float], 'ConditionBuilder']:
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
 
     def _time_property(self, value: any, name: str) -> 'ConditionBuilder':
@@ -47,28 +47,30 @@ class ConditionBuilder:
         self._condition.description = description
         return self._new_builder_with_cloned_condition()
 
-    def until(self, func: Callable[[], any]) -> any:
+    def until(self, func: ConditionCallback) -> any:
         return runner.run(self._wait_for(func, check))
 
-    async def _wait_for(self, func, checker):
+    async def _wait_for(self, func: ConditionCallback, checker: Checker):
+        from busypie.awaiter import AsyncConditionAwaiter
+
         return await AsyncConditionAwaiter(
             condition=self._condition,
             func_checker=checker).wait_for(func)
 
-    def during(self, func: Callable[[], any]) -> None:
+    def during(self, func: ConditionCallback) -> None:
         runner.run(self._wait_for(func, negative_check))
 
-    async def until_async(self, func: Callable[[], any]) -> any:
+    async def until_async(self, func: ConditionCallback) -> any:
         return await self._wait_for(func, check)
 
-    async def during_async(self, func: Callable[[], any]) -> None:
+    async def during_async(self, func: ConditionCallback) -> None:
         await self._wait_for(func, negative_check)
 
-    def until_asserted(self, func: Callable[[], any]) -> any:
+    def until_asserted(self, func: ConditionCallback) -> any:
         self._condition.append_exception(AssertionError)
         return runner.run(self._wait_for(func, assert_check))
 
-    async def until_asserted_async(self, func: Callable[[], any]) -> any:
+    async def until_asserted_async(self, func: ConditionCallback) -> any:
         self._condition.append_exception(AssertionError)
         return await self._wait_for(func, assert_check)
 
@@ -85,7 +87,7 @@ class Condition:
     poll_delay = DEFAULT_POLL_DELAY
     description = None
 
-    def append_exception(self, exception):
+    def append_exception(self, exception: Type[Exception]):
         if self.ignored_exceptions is None:
             self.ignored_exceptions = []
         self.ignored_exceptions.append(exception)
