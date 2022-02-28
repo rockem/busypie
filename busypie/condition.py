@@ -26,7 +26,7 @@ class ConditionBuilder:
         self.poll_delay = self._time_property_func_for('poll_delay')
         self.poll_interval = self._time_property_func_for('poll_interval')
 
-    def _time_property_func_for(self, name: str) -> partial[[float, float], 'ConditionBuilder']:
+    def _time_property_func_for(self, name: str):
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
 
     def _time_property(self, value: any, name: str) -> 'ConditionBuilder':
