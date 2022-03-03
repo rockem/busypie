@@ -2,8 +2,6 @@
 
 # flake8: noqa
 
-import sys
-
 from backports.asyncio import runners
 from backports.asyncio.runners import *
 

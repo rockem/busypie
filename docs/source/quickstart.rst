@@ -33,3 +33,4 @@ As with ``until`` async support is available for it as well::
     async def create_user():
         dispatch_user_create_command()
         await wait().during_async(lambda: !app.has_user(user))
+
