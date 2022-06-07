@@ -8,7 +8,7 @@ def is_async(func) -> bool:
     return inspect.iscoroutinefunction(_unpartial(func))
 
 
-def _unpartial(func: Callable):
+def _unpartial(func: Callable) -> Callable:
     while isinstance(func, partial):
         func = func.func
     return func

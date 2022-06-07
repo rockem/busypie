@@ -10,7 +10,7 @@ def wait() -> 'ConditionBuilder':
 given = wait
 
 
-def wait_at_most(value: float, unit: float = SECOND):
+def wait_at_most(value: float, unit: float = SECOND) -> 'ConditionBuilder':
     return wait().at_most(value, unit)
 
 
