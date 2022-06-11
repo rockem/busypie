@@ -1,5 +1,5 @@
 from typing import Callable
 
-ConditionCallback = Callable[[], any]
+ConditionEvaluator = Callable[[], any]
 
-Checker = Callable[[ConditionCallback], any]
+Checker = Callable[[ConditionEvaluator], any]
