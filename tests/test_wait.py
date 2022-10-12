@@ -41,3 +41,9 @@ def test_nested_waits():
         return wait().until(lambda: True)
 
     assert wait().until(condition)
+
+
+def test_wait_until_with_lambda_captures():
+    c1 = 321
+    c2 = 123
+    assert wait().until(lambda x=c1, y=c2: x + y) == (c1 + c2)
