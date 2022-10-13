@@ -67,10 +67,3 @@ async def is_asleep(sleeper):
 async def async_wait_until_awake(sleeper, delay=0.01):
     await wait().at_most(AsyncSleeper.SLEEP_DURATION + 0.1).until_async(partial(sleeper.get_awake_with_delay, delay))
     assert sleeper.awake
-
-
-@pytest.mark.asyncio
-async def test_wait_until_with_lambda_captures_async():
-    c1 = 321
-    c2 = 123
-    assert await wait().until_async(lambda x=c1, y=c2: x + y) == (c1 + c2)
