@@ -27,5 +27,5 @@ def _is_a_lambda(func):
 
 def _content_of(lambda_func):
     source_line = inspect.getsource(lambda_func)
-    r = re.search(r'lambda:\s*(.+)\s*\)', source_line)
+    r = re.search(r'lambda[^:]*:\s*(.+)\s*\)', source_line)
     return r.group(1)
