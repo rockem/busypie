@@ -28,5 +28,5 @@ def _is_a_lambda(func: Callable) -> bool:
 
 def _content_of(lambda_func: Callable) -> str:
     source_line = inspect.getsource(lambda_func)
-    r = re.search(r'lambda:\s*(.+)\s*\)', source_line)
+    r = re.search(r'lambda[^:]*:\s*(.+)\s*\)', source_line)
     return r.group(1)

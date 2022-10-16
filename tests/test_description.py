@@ -34,5 +34,11 @@ def test_lambda_content_description_on_timeout():
     assert '3 == 4' == e.value.description
 
 
+def test_lambda_content_with_captures():
+    with pytest.raises(ConditionTimeoutError) as e:
+        wait_at_most(ONE_HUNDRED_MILLISECONDS).until(lambda x=1, y=2: x == y)
+    assert 'x == y' == e.value.description
+
+
 def _always_fail_check(x=10):
     return x == 0
