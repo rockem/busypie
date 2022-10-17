@@ -40,5 +40,5 @@ def test_lambda_content_with_captures():
     assert 'x == y' == e.value.description
 
 
-def _always_fail_check(x=None):
-    return False
+def _always_fail_check(x=10):
+    return x == 0
