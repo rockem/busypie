@@ -9,8 +9,8 @@ from busypie.types import Checker, ConditionEvaluator
 
 
 class AsyncConditionAwaiter:
-    def __init__(self, condition_evaluator: 'Condition', evaluator_checker: Checker):
-        self._condition = condition_evaluator
+    def __init__(self, condition: 'Condition', evaluator_checker: Checker):
+        self._condition = condition
         self._evaluator_check = evaluator_checker
         self._validate_condition()
         self._last_error = None
@@ -46,6 +46,21 @@ class AsyncConditionAwaiter:
 
     def _describe(self, condition_evaluator: ConditionEvaluator) -> str:
         return self._condition.description or describe(condition_evaluator)
+
+
+class ReturnOnTimeoutAwaiter:
+
+    def __init__(self, awaiter, condition: 'Condition'):
+        self._awaiter = awaiter
+        self._condition = condition
+
+    async def wait_for(self, evaluator: ConditionEvaluator) -> any:
+        try:
+            return await self._awaiter.wait_for(evaluator)
+        except ConditionTimeoutError as cte:
+            if self._condition.return_on_timeout:
+                return False
+            raise cte
 
 
 class ConditionTimeoutError(Exception):

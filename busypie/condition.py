@@ -51,11 +51,11 @@ class ConditionBuilder:
         return runner.run(self._wait_for(evaluator, check))
 
     async def _wait_for(self, evaluator: ConditionEvaluator, checker: Checker):
-        from busypie.awaiter import AsyncConditionAwaiter
+        from busypie.awaiter import AsyncConditionAwaiter, ReturnOnTimeoutAwaiter
 
-        return await AsyncConditionAwaiter(
-            condition_evaluator=self._condition,
-            evaluator_checker=checker).wait_for(evaluator)
+        return await ReturnOnTimeoutAwaiter(
+            AsyncConditionAwaiter(condition=self._condition, evaluator_checker=checker),
+            condition=self._condition).wait_for(evaluator)
 
     def during(self, evaluator: ConditionEvaluator) -> None:
         runner.run(self._wait_for(evaluator, negative_check))
@@ -79,6 +79,10 @@ class ConditionBuilder:
             return False
         return self._condition == other._condition
 
+    def return_on_timeout(self) -> 'ConditionBuilder':
+        self._condition.return_on_timeout = True
+        return self
+
 
 class Condition:
     wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
@@ -86,6 +90,7 @@ class Condition:
     poll_interval = DEFAULT_POLL_INTERVAL
     poll_delay = DEFAULT_POLL_DELAY
     description = None
+    return_on_timeout = False
 
     def append_exception(self, exception: Type[Exception]):
         if self.ignored_exceptions is None:
