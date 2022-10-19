@@ -41,3 +41,7 @@ def test_nested_waits():
         return wait().until(lambda: True)
 
     assert wait().until(condition)
+
+
+def test_return_on_timeout():
+    assert wait().at_most(100 * MILLISECOND).return_on_timeout().until(lambda: 2 == 3) is False
