@@ -28,8 +28,8 @@ def test_create_user():
 ```
 
 ## Documentation
-* [Installation](https://busypie.readthedocs.io/en/v0.4.5/install.html)
-* [Usage Guide](https://busypie.readthedocs.io/en/v0.4.5/index.html)
+* [Installation](https://busypie.readthedocs.io/en/latest/install.html)
+* [Usage Guide](https://busypie.readthedocs.io/en/latest/index.html)
 
 
 ## Links
