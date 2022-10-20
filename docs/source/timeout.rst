@@ -33,8 +33,8 @@ Return on timeout
 If needed it's possible to return False on timeout, instead of throwing the
 'ConditionTimeoutError' error::
 
-    is_condition_met = wait().return_on_timeout().until(lambda: app_state() == 'UP')
-    if not is_condition_met:
+    result = wait().return_on_timeout().until(lambda: app_state() == 'UP')
+    if not result:
         handle_error()
 
 Default timeout
