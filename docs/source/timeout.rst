@@ -28,6 +28,15 @@ Condition timeout cause
 If there was an ignored exception that was thrown prior to the the timeout, the
 'ConditionTimeoutError' error, will contain that last exception as the cause for it.
 
+Return on timeout
+-----------------
+If needed it's possible to return False on timeout, instead of throwing the
+'ConditionTimeoutError' error::
+
+    result = wait().return_on_timeout().until(lambda: app_state() == 'UP')
+    if not result:
+        handle_error()
+
 Default timeout
 ---------------
 The default timeout in :pypi:`busypie` is set to 10 seconds, you can change that by using::
