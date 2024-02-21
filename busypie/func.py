@@ -14,9 +14,9 @@ def _unpartial(func: Callable) -> Callable:
     return func
 
 
-def describe(func: Callable, eli) -> str:
-    # if _is_a_lambda(func):
-    #     return _content_of(func)
+def describe(func: Callable) -> str:
+    if _is_a_lambda(func):
+        return _content_of(func)
     return _unpartial(func).__name__
 
 
