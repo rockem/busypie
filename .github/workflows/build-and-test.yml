@@ -9,8 +9,7 @@ on:
       - master
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-20.04
     strategy:
       max-parallel: 3
@@ -38,3 +37,4 @@ jobs:
         python -m setup install
         cd /
         python -c "import busypie"
+  
