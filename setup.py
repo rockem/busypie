@@ -18,7 +18,7 @@ setup(
     setup_requires=["pytest-runner"],
     tests_require=[
         'pytest==8.0.1',
-        'pytest-asyncio==0.23.5',
+        'pytest-asyncio==0.21.1',
         'pytest-timeout==2.2.0'
     ],
     classifiers=[
