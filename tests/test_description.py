@@ -4,6 +4,7 @@ import pytest
 
 from busypie import (ONE_HUNDRED_MILLISECONDS, ConditionTimeoutError,
                      wait_at_most)
+from busypie.func import describe
 
 
 def test_custom_description_on_timeout():
@@ -40,11 +41,11 @@ def test_lambda_content_with_captures():
     assert 'x == y' == e.value.description
 
 
-def test_multi_line_lambda_content_description_on_timeout():
-    with pytest.raises(ConditionTimeoutError) as e:
-        wait_at_most(ONE_HUNDRED_MILLISECONDS).until(lambda: 3 == 4 and \
-                                                             5 == 6)
-    assert '3 == 4 and \\ 5 == 6' == e.value.description
+def test_multi_line_lambda_content_description():
+    description = describe(lambda: 3 == 4 and \
+                                   5 == 6)
+
+    assert description == '3 == 4 and 5 == 6'
 
 
 def _always_fail_check(x=10):
