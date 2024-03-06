@@ -17,7 +17,7 @@ setup(
     packages=find_packages(exclude=['tests*']),
     setup_requires=["pytest-runner"],
     tests_require=[
-        'pytest==7.4.4',
+        'pytest==8.0.2',
         'pytest-asyncio==0.21.1',
         'pytest-timeout==2.2.0',
         'dataclasses==0.6'
