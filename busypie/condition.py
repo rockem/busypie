@@ -5,7 +5,7 @@ from typing import Type
 
 from busypie import runner
 from busypie.checker import check, negative_check, assert_check
-from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
+from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND, MILLISECOND
 from busypie.time import time_value_operator
 from busypie.types import ConditionEvaluator, Checker
 
@@ -25,6 +25,7 @@ class ConditionBuilder:
         self.wait_at_most = self.at_most
         self.poll_delay = self._time_property_evaluator_for('poll_delay')
         self.poll_interval = self._time_property_evaluator_for('poll_interval')
+        self.at_least = self._time_property_evaluator_for('at_least')
 
     def _time_property_evaluator_for(self, name: str):
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
@@ -45,6 +46,10 @@ class ConditionBuilder:
 
     def with_description(self, description: str) -> 'ConditionBuilder':
         self._condition.description = description
+        return self._new_builder_with_cloned_condition()
+
+    def at_least(self, at_least: int) -> 'ConditionBuilder':
+        self._condition.at_least = at_least
         return self._new_builder_with_cloned_condition()
 
     def until(self, evaluator: ConditionEvaluator) -> any:
@@ -100,12 +105,12 @@ class Condition:
     def __eq__(self, other):
         if not isinstance(other, Condition):
             return False
+
         return \
             self.wait_time_in_secs == other.wait_time_in_secs and \
             self.ignored_exceptions == other.ignored_exceptions and \
             self.poll_interval == other.poll_interval and \
             self.poll_delay == other.poll_delay
-
 
 set_default_timeout = partial(
     time_value_operator,

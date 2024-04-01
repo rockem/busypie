@@ -18,6 +18,9 @@ class AsyncConditionAwaiter:
     def _validate_condition(self):
         if self._condition.poll_delay > self._condition.wait_time_in_secs:
             raise ValueError('Poll delay should be shorter than maximum wait constraint')
+        if ((hasattr(self._condition, 'at_least') and self._condition.at_least)
+                >= self._condition.wait_time_in_secs):
+            raise ValueError('at least should be shorter than maximum wait constraint')
 
     async def wait_for(self, evaluator: ConditionEvaluator) -> any:
         start_time = time.time()
@@ -40,7 +43,8 @@ class AsyncConditionAwaiter:
             raise e
 
     def _validate_wait_constraint(self, condition_evaluator: ConditionEvaluator, start_time: float):
-        if (time.time() - start_time) > self._condition.wait_time_in_secs:
+        execute_time = (time.time() - start_time)
+        if (hasattr(self._condition, 'at_least') and self._condition.at_least < execute_time) or execute_time > self._condition.wait_time_in_secs:
             raise busypie.ConditionTimeoutError(
                 self._describe(condition_evaluator), self._condition.wait_time_in_secs) from self._last_error
 
