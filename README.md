@@ -5,11 +5,10 @@
   <strong>Easy and expressive busy-waiting for Python</strong>
 </p>
 <p align="center">
-  <a href="https://github.com/rockem/busypie/actions"><img src="https://github.com/rockem/busypie/workflows/Build/badge.svg"/></a>
+  <a href="https://github.com/rockem/busypie/actions/workflows/test.yml"><img src="https://github.com/rockem/busypie/actions/workflows/test.yml/badge.svg?branch=master"/></a>
   <a href="https://github.com/rockem/busypie/releases"><img src="https://img.shields.io/github/v/release/rockem/busypie"/></a>
   <a href="https://github.com/rockem/busypie/blob/master/LICENSE"><img src="http://img.shields.io/:license-apache2.0-blue.svg"/></a>
 </p>
-
 
 Although you wouldn't want to do much busy waiting in your production code, 
 testing is a different matter. When testing asynchronous systems, 
