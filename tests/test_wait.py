@@ -45,3 +45,9 @@ def test_nested_waits():
 
 def test_return_on_timeout():
     assert wait().at_most(100 * MILLISECOND).return_on_timeout().until(lambda: 2 == 3) is False
+
+
+def test_raise_given_condition_invoked_before_at_least():
+    with pytest.raises(ConditionTimeoutError):
+        with assert_done_after(0.4) as c:
+            wait().at_least(0.6).until(lambda: c.done)

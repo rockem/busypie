@@ -21,10 +21,11 @@ class ConditionBuilder:
         self._create_time_based_evaluatortions()
 
     def _create_time_based_evaluatortions(self):
-        self.at_most = self._time_property_evaluator_for('wait_time_in_secs')
+        self.at_most = self._time_property_evaluator_for('max_wait_time')
         self.wait_at_most = self.at_most
         self.poll_delay = self._time_property_evaluator_for('poll_delay')
         self.poll_interval = self._time_property_evaluator_for('poll_interval')
+        self.at_least = self._time_property_evaluator_for('min_wait_time')
 
     def _time_property_evaluator_for(self, name: str):
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
@@ -85,12 +86,13 @@ class ConditionBuilder:
 
 
 class Condition:
-    wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
+    max_wait_time = DEFAULT_MAX_WAIT_TIME
     ignored_exceptions = None
     poll_interval = DEFAULT_POLL_INTERVAL
     poll_delay = DEFAULT_POLL_DELAY
     description = None
     return_on_timeout = False
+    min_wait_time = 0
 
     def append_exception(self, exception: Type[Exception]):
         if self.ignored_exceptions is None:
@@ -100,8 +102,9 @@ class Condition:
     def __eq__(self, other):
         if not isinstance(other, Condition):
             return False
+
         return \
-            self.wait_time_in_secs == other.wait_time_in_secs and \
+            self.max_wait_time == other.max_wait_time and \
             self.ignored_exceptions == other.ignored_exceptions and \
             self.poll_interval == other.poll_interval and \
             self.poll_delay == other.poll_delay
@@ -109,8 +112,8 @@ class Condition:
 
 set_default_timeout = partial(
     time_value_operator,
-    visitor=partial(setattr, Condition, 'wait_time_in_secs'))
+    visitor=partial(setattr, Condition, 'max_wait_time'))
 
 
 def reset_defaults() -> None:
-    Condition.wait_time_in_secs = DEFAULT_MAX_WAIT_TIME
+    Condition.max_wait_time = DEFAULT_MAX_WAIT_TIME
