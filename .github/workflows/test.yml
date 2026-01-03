@@ -10,11 +10,11 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     strategy:
       max-parallel: 3
       matrix:
-        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.8', '3.9', '3.10', '3.14']
 
     steps:
     - uses: actions/checkout@v4
@@ -31,10 +31,11 @@ jobs:
         flake8 .
     - name: Test with pytest
       run: |
-        python setup.py test
+        pip install ".[test]"
+        pytest
     - name: Test import
       run: |
-        python -m setup install
+        pip install .
         cd /
         python -c "import busypie"
   
