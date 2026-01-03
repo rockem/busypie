@@ -31,10 +31,11 @@ jobs:
         flake8 .
     - name: Test with pytest
       run: |
-        python setup.py test
+        pip install ".[test]"
+        pytest
     - name: Test import
       run: |
-        python -m setup install
+        pip install .
         cd /
         python -c "import busypie"
   
