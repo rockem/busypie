@@ -1,10 +1,10 @@
 from numbers import Number
-from typing import Callable
+from typing import Any, Callable
 
 from busypie.durations import SECOND
 
 
-def time_value_operator(value: float, unit: float = SECOND, visitor: Callable[[float], any] = None) -> any:
+def time_value_operator(value: float, unit: float = SECOND, visitor: Callable[[float], Any] = None) -> Any:
     _validate_time_and_unit(value, unit)
     return visitor(value * unit)
 

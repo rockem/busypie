@@ -1,7 +1,7 @@
 import asyncio
 import time
 from functools import partial
-from typing import Callable
+from typing import Any, Callable
 
 import busypie
 from busypie.condition import Condition
@@ -22,7 +22,7 @@ class AsyncConditionAwaiter:
         if self._condition.min_wait_time >= self._condition.max_wait_time:
             raise ValueError('at least should be shorter than maximum wait constraint')
 
-    async def wait_for(self, evaluator: ConditionEvaluator) -> any:
+    async def wait_for(self, evaluator: ConditionEvaluator) -> Any:
         start_time = time.time()
         time_bounds_checker = partial(self._validate_wait_bounds, evaluator, start_time)
         await asyncio.sleep(self._condition.poll_delay)
@@ -67,7 +67,7 @@ class ReturnOnTimeoutAwaiter:
         self._awaiter = awaiter
         self._condition = condition
 
-    async def wait_for(self, evaluator: ConditionEvaluator) -> any:
+    async def wait_for(self, evaluator: ConditionEvaluator) -> Any:
         try:
             return await self._awaiter.wait_for(evaluator)
         except ConditionTimeoutError as cte:
