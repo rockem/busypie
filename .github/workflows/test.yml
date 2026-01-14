@@ -29,6 +29,10 @@ jobs:
       run: |
         pip install flake8
         flake8 .
+    - name: Type check with mypy
+      run: |
+        pip install ".[dev]"
+        mypy busypie
     - name: Test with pytest
       run: |
         pip install ".[test]"
