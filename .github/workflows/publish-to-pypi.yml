@@ -21,4 +21,4 @@ jobs:
           pip install build
           python -m build
       - name: Publish
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@release/v1.13.0
