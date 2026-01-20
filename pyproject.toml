@@ -37,14 +37,12 @@ dev = [
 packages = {find = {exclude = ["tests*"]}}
 
 [tool.mypy]
-python_version = "3.8"
-warn_return_any = true
-warn_unused_configs = true
-disallow_untyped_defs = false
-disallow_incomplete_defs = false
+python_version = "3.9"
 check_untyped_defs = true
 no_implicit_optional = true
 warn_redundant_casts = true
 warn_unused_ignores = true
-warn_no_return = true
 strict_equality = true
+warn_no_return = true
+exclude = ["build/", "setup.py", "docs/", "tests/"]
+

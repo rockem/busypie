@@ -1,8 +1,10 @@
+from typing import Any
+
 from busypie.func import is_async
 from busypie.types import ConditionEvaluator
 
 
-async def check(condition_evaluator: ConditionEvaluator) -> any:
+async def check(condition_evaluator: ConditionEvaluator) -> Any:
     if is_async(condition_evaluator):
         return await condition_evaluator()
     return condition_evaluator()

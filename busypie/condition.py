@@ -1,7 +1,7 @@
 from builtins import Exception
 from copy import deepcopy
 from functools import partial
-from typing import Type
+from typing import Any, List, Optional, Sequence, Type
 
 from busypie import runner
 from busypie.checker import check, negative_check, assert_check
@@ -16,7 +16,7 @@ DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 class ConditionBuilder:
 
-    def __init__(self, condition: 'Condition' = None):
+    def __init__(self, condition: Optional['Condition'] = None):
         self._condition = Condition() if condition is None else condition
         self._create_time_based_evaluatortions()
 
@@ -30,7 +30,7 @@ class ConditionBuilder:
     def _time_property_evaluator_for(self, name: str):
         return partial(time_value_operator, visitor=partial(self._time_property, name=name))
 
-    def _time_property(self, value: any, name: str) -> 'ConditionBuilder':
+    def _time_property(self, value: Any, name: str) -> 'ConditionBuilder':
         setattr(self._condition, name, value)
         return self._new_builder_with_cloned_condition()
 
@@ -38,7 +38,7 @@ class ConditionBuilder:
         return ConditionBuilder(deepcopy(self._condition))
 
     def ignore_exceptions(self, *excludes: Type[Exception]) -> 'ConditionBuilder':
-        self._condition.ignored_exceptions = excludes
+        self._condition.ignored_exceptions = list(excludes)
         return self._new_builder_with_cloned_condition()
 
     def wait(self) -> 'ConditionBuilder':
@@ -48,7 +48,7 @@ class ConditionBuilder:
         self._condition.description = description
         return self._new_builder_with_cloned_condition()
 
-    def until(self, evaluator: ConditionEvaluator) -> any:
+    def until(self, evaluator: ConditionEvaluator) -> Any:
         return runner.run(self._wait_for(evaluator, check))
 
     async def _wait_for(self, evaluator: ConditionEvaluator, checker: Checker):
@@ -61,17 +61,17 @@ class ConditionBuilder:
     def during(self, evaluator: ConditionEvaluator) -> None:
         runner.run(self._wait_for(evaluator, negative_check))
 
-    async def until_async(self, evaluator: ConditionEvaluator) -> any:
+    async def until_async(self, evaluator: ConditionEvaluator) -> Any:
         return await self._wait_for(evaluator, check)
 
     async def during_async(self, evaluator: ConditionEvaluator) -> None:
         await self._wait_for(evaluator, negative_check)
 
-    def until_asserted(self, evaluator: ConditionEvaluator) -> any:
+    def until_asserted(self, evaluator: ConditionEvaluator) -> Any:
         self._condition.append_exception(AssertionError)
         return runner.run(self._wait_for(evaluator, assert_check))
 
-    async def until_asserted_async(self, evaluator: ConditionEvaluator) -> any:
+    async def until_asserted_async(self, evaluator: ConditionEvaluator) -> Any:
         self._condition.append_exception(AssertionError)
         return await self._wait_for(evaluator, assert_check)
 
@@ -86,13 +86,13 @@ class ConditionBuilder:
 
 
 class Condition:
-    max_wait_time = DEFAULT_MAX_WAIT_TIME
-    ignored_exceptions = None
-    poll_interval = DEFAULT_POLL_INTERVAL
-    poll_delay = DEFAULT_POLL_DELAY
-    description = None
-    return_on_timeout = False
-    min_wait_time = 0
+    max_wait_time: float = DEFAULT_MAX_WAIT_TIME
+    ignored_exceptions: Optional[List[Type[Exception]]] = None
+    poll_interval: float = DEFAULT_POLL_INTERVAL
+    poll_delay: float = DEFAULT_POLL_DELAY
+    description: Optional[str] = None
+    return_on_timeout: bool = False
+    min_wait_time: float = 0
 
     def append_exception(self, exception: Type[Exception]):
         if self.ignored_exceptions is None:
