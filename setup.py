@@ -19,7 +19,7 @@ setup(
     tests_require=[
         'pytest==7.4.4',
         'pytest-asyncio==0.23.7',
-        'pytest-timeout==2.3.1',
+        'pytest-timeout==2.4.0',
         'dataclasses==0.6'
     ],
     classifiers=[
