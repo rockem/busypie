@@ -37,7 +37,7 @@ dev = [
 packages = {find = {exclude = ["tests*"]}}
 
 [tool.mypy]
-python_version = "3.9"
+python_version = "3.8"
 check_untyped_defs = true
 no_implicit_optional = true
 warn_redundant_casts = true
