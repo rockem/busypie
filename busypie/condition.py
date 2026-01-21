@@ -1,7 +1,7 @@
 from builtins import Exception
 from copy import deepcopy
 from functools import partial
-from typing import Any, List, Optional, Sequence, Type
+from typing import Any, List, Optional, Type
 
 from busypie import runner
 from busypie.checker import check, negative_check, assert_check
@@ -16,35 +16,37 @@ DEFAULT_POLL_DELAY = ONE_HUNDRED_MILLISECONDS
 
 class ConditionBuilder:
 
-    def __init__(self, condition: Optional['Condition'] = None):
+    def __init__(self, condition: Optional["Condition"] = None):
         self._condition = Condition() if condition is None else condition
         self._create_time_based_evaluatortions()
 
     def _create_time_based_evaluatortions(self):
-        self.at_most = self._time_property_evaluator_for('max_wait_time')
+        self.at_most = self._time_property_evaluator_for("max_wait_time")
         self.wait_at_most = self.at_most
-        self.poll_delay = self._time_property_evaluator_for('poll_delay')
-        self.poll_interval = self._time_property_evaluator_for('poll_interval')
-        self.at_least = self._time_property_evaluator_for('min_wait_time')
+        self.poll_delay = self._time_property_evaluator_for("poll_delay")
+        self.poll_interval = self._time_property_evaluator_for("poll_interval")
+        self.at_least = self._time_property_evaluator_for("min_wait_time")
 
     def _time_property_evaluator_for(self, name: str):
-        return partial(time_value_operator, visitor=partial(self._time_property, name=name))
+        return partial(
+            time_value_operator, visitor=partial(self._time_property, name=name)
+        )
 
-    def _time_property(self, value: Any, name: str) -> 'ConditionBuilder':
+    def _time_property(self, value: Any, name: str) -> "ConditionBuilder":
         setattr(self._condition, name, value)
         return self._new_builder_with_cloned_condition()
 
-    def _new_builder_with_cloned_condition(self) -> 'ConditionBuilder':
+    def _new_builder_with_cloned_condition(self) -> "ConditionBuilder":
         return ConditionBuilder(deepcopy(self._condition))
 
-    def ignore_exceptions(self, *excludes: Type[Exception]) -> 'ConditionBuilder':
+    def ignore_exceptions(self, *excludes: Type[Exception]) -> "ConditionBuilder":
         self._condition.ignored_exceptions = list(excludes)
         return self._new_builder_with_cloned_condition()
 
-    def wait(self) -> 'ConditionBuilder':
+    def wait(self) -> "ConditionBuilder":
         return self._new_builder_with_cloned_condition()
 
-    def with_description(self, description: str) -> 'ConditionBuilder':
+    def with_description(self, description: str) -> "ConditionBuilder":
         self._condition.description = description
         return self._new_builder_with_cloned_condition()
 
@@ -56,7 +58,8 @@ class ConditionBuilder:
 
         return await ReturnOnTimeoutAwaiter(
             AsyncConditionAwaiter(condition=self._condition, evaluator_checker=checker),
-            condition=self._condition).wait_for(evaluator)
+            condition=self._condition,
+        ).wait_for(evaluator)
 
     def during(self, evaluator: ConditionEvaluator) -> None:
         runner.run(self._wait_for(evaluator, negative_check))
@@ -80,7 +83,7 @@ class ConditionBuilder:
             return False
         return self._condition == other._condition
 
-    def return_on_timeout(self) -> 'ConditionBuilder':
+    def return_on_timeout(self) -> "ConditionBuilder":
         self._condition.return_on_timeout = True
         return self
 
@@ -103,16 +106,17 @@ class Condition:
         if not isinstance(other, Condition):
             return False
 
-        return \
-            self.max_wait_time == other.max_wait_time and \
-            self.ignored_exceptions == other.ignored_exceptions and \
-            self.poll_interval == other.poll_interval and \
-            self.poll_delay == other.poll_delay
+        return (
+            self.max_wait_time == other.max_wait_time
+            and self.ignored_exceptions == other.ignored_exceptions
+            and self.poll_interval == other.poll_interval
+            and self.poll_delay == other.poll_delay
+        )
 
 
 set_default_timeout = partial(
-    time_value_operator,
-    visitor=partial(setattr, Condition, 'max_wait_time'))
+    time_value_operator, visitor=partial(setattr, Condition, "max_wait_time")
+)
 
 
 def reset_defaults() -> None:
