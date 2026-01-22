@@ -3,8 +3,8 @@ from functools import partial
 
 import pytest
 
-from busypie import ConditionTimeoutError, wait, ONE_HUNDRED_MILLISECONDS
-from tests.sleeper import assert_done_after, AsyncSleeper
+from busypie import ONE_HUNDRED_MILLISECONDS, ConditionTimeoutError, wait
+from tests.sleeper import AsyncSleeper, assert_done_after
 
 
 def test_timeout_when_not_asserted_in_time():
@@ -20,15 +20,15 @@ def test_wait_for_assertion_to_pass():
 @pytest.mark.asyncio
 async def test_await_for_assertion_to_pass():
     sleeper = AsyncSleeper()
-    await asyncio.gather(
-        _wait_until_awake(sleeper),
-        sleeper.sleep_for_a_bit())
+    await asyncio.gather(_wait_until_awake(sleeper), sleeper.sleep_for_a_bit())
 
 
 @pytest.mark.asyncio
 async def test_fail_await_when_not_asserted_in_time():
     with pytest.raises(ConditionTimeoutError):
-        await wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted_async(_failed_assertion)
+        await wait().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted_async(
+            _failed_assertion
+        )
 
 
 def test_retrieve_assertion_error_as_cause_on_timeout():
@@ -60,9 +60,9 @@ async def _assert_is_done_async(sleeper):
 
 
 async def _wait_until_awake(sleeper):
-    await wait() \
-        .at_most(AsyncSleeper.SLEEP_DURATION + 0.1) \
-        .until_asserted_async(partial(_assert_sleeper_is_awake, sleeper))
+    await wait().at_most(AsyncSleeper.SLEEP_DURATION + 0.1).until_asserted_async(
+        partial(_assert_sleeper_is_awake, sleeper)
+    )
     assert sleeper.awake
 
 

@@ -1,9 +1,9 @@
+import time
 from contextlib import contextmanager
 
 import pytest
 
-import time
-from busypie import wait, FIVE_HUNDRED_MILLISECONDS, MILLISECOND, SECOND
+from busypie import FIVE_HUNDRED_MILLISECONDS, MILLISECOND, SECOND, wait
 from busypie.condition import DEFAULT_POLL_DELAY
 
 

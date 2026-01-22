@@ -44,4 +44,3 @@ The default timeout in :pypi:`busypie` is set to 10 seconds, you can change that
     from busypie import set_default_timeout
 
     set_default_timeout(1 * MINUTE)
-

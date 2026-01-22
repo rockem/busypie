@@ -4,10 +4,10 @@ from functools import partial
 from typing import Any, List, Optional, Type
 
 from busypie import runner
-from busypie.checker import check, negative_check, assert_check
+from busypie.checker import assert_check, check, negative_check
 from busypie.durations import ONE_HUNDRED_MILLISECONDS, SECOND
 from busypie.time import time_value_operator
-from busypie.types import ConditionEvaluator, Checker
+from busypie.types import Checker, ConditionEvaluator
 
 DEFAULT_MAX_WAIT_TIME = 10 * SECOND
 DEFAULT_POLL_INTERVAL = ONE_HUNDRED_MILLISECONDS

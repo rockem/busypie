@@ -22,12 +22,14 @@ def describe(func: Callable) -> str:
 
 def _is_a_lambda(func: Callable) -> bool:
     lambda_template = lambda: 0  # noqa: E731
-    return isinstance(func, type(lambda_template)) and \
-        func.__name__ == lambda_template.__name__
+    return (
+        isinstance(func, type(lambda_template))
+        and func.__name__ == lambda_template.__name__
+    )
 
 
 def _content_of(lambda_func: Callable) -> str:
     source_line = inspect.getsource(lambda_func)
-    r = re.search(r'lambda[^:]*:\s*(.+)\s*\)', source_line)
+    r = re.search(r"lambda[^:]*:\s*(.+)\s*\)", source_line)
     assert r is not None
     return r.group(1)

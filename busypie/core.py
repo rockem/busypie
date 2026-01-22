@@ -3,14 +3,14 @@ from busypie.condition import ConditionBuilder
 from busypie.durations import SECOND
 
 
-def wait() -> 'ConditionBuilder':
+def wait() -> "ConditionBuilder":
     return ConditionBuilder()
 
 
 given = wait
 
 
-def wait_at_most(value: float, unit: float = SECOND) -> 'ConditionBuilder':
+def wait_at_most(value: float, unit: float = SECOND) -> "ConditionBuilder":
     return wait().at_most(value, unit)
 
 

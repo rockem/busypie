@@ -10,7 +10,7 @@ from busypie.types import Checker, ConditionEvaluator
 
 
 class AsyncConditionAwaiter:
-    def __init__(self, condition: 'Condition', evaluator_checker: Checker) -> None:
+    def __init__(self, condition: "Condition", evaluator_checker: Checker) -> None:
         self._condition = condition
         self._evaluator_check = evaluator_checker
         self._validate_condition()
@@ -18,9 +18,11 @@ class AsyncConditionAwaiter:
 
     def _validate_condition(self):
         if self._condition.poll_delay > self._condition.max_wait_time:
-            raise ValueError('Poll delay should be shorter than maximum wait constraint')
+            raise ValueError(
+                "Poll delay should be shorter than maximum wait constraint"
+            )
         if self._condition.min_wait_time >= self._condition.max_wait_time:
-            raise ValueError('at least should be shorter than maximum wait constraint')
+            raise ValueError("at least should be shorter than maximum wait constraint")
 
     async def wait_for(self, evaluator: ConditionEvaluator) -> Any:
         start_time = time.time()
@@ -38,12 +40,17 @@ class AsyncConditionAwaiter:
             time_bounds_checker(self.is_max_wait_time_passed)
             await asyncio.sleep(self._condition.poll_interval)
 
-    def _validate_wait_bounds(self, condition_evaluator: ConditionEvaluator, start_time: float,
-                              constraint: Callable[[float], bool]):
+    def _validate_wait_bounds(
+        self,
+        condition_evaluator: ConditionEvaluator,
+        start_time: float,
+        constraint: Callable[[float], bool],
+    ):
         execution_time = time.time() - start_time
         if constraint(execution_time):
             raise busypie.ConditionTimeoutError(
-                self._describe(condition_evaluator), self._condition.max_wait_time) from self._last_error
+                self._describe(condition_evaluator), self._condition.max_wait_time
+            ) from self._last_error
 
     def _describe(self, condition_evaluator: ConditionEvaluator) -> str:
         return self._condition.description or describe(condition_evaluator)
@@ -53,8 +60,9 @@ class AsyncConditionAwaiter:
 
     def _raise_exception_if_not_ignored(self, e: Exception):
         ignored_exceptions = self._condition.ignored_exceptions
-        if ignored_exceptions is None or \
-                (ignored_exceptions and e.__class__ not in ignored_exceptions):
+        if ignored_exceptions is None or (
+            ignored_exceptions and e.__class__ not in ignored_exceptions
+        ):
             raise e
 
     def is_max_wait_time_passed(self, execute_time: float):
@@ -63,7 +71,7 @@ class AsyncConditionAwaiter:
 
 class ReturnOnTimeoutAwaiter:
 
-    def __init__(self, awaiter, condition: 'Condition'):
+    def __init__(self, awaiter, condition: "Condition"):
         self._awaiter = awaiter
         self._condition = condition
 
@@ -78,6 +86,9 @@ class ReturnOnTimeoutAwaiter:
 
 class ConditionTimeoutError(Exception):
     def __init__(self, description: str, max_wait_time: float):
-        super(ConditionTimeoutError, self).__init__("Failed to meet condition of [{}] within {} seconds"
-                                                    .format(description, max_wait_time))
+        super(ConditionTimeoutError, self).__init__(
+            "Failed to meet condition of [{}] within {} seconds".format(
+                description, max_wait_time
+            )
+        )
         self.description = description

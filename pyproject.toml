@@ -36,6 +36,9 @@ dev = [
 [tool.setuptools]
 packages = {find = {exclude = ["tests*"]}}
 
+[tool.isort]
+profile = "black"
+
 [tool.mypy]
 python_version = "3.9"
 check_untyped_defs = true
@@ -45,4 +48,3 @@ warn_unused_ignores = true
 strict_equality = true
 warn_no_return = true
 exclude = ["build/", "setup.py", "docs/", "tests/"]
-

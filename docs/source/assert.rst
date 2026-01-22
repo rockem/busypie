@@ -20,4 +20,3 @@ of checking a boolean expression. It's possible to achieve this with the
     async def test_event_should_be_dispatched():
         dispatcher.dispatch(event)
         await wait().until_asserted_async(validate_dispatched_event)
-
