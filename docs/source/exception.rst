@@ -8,4 +8,3 @@ Sometimes it's useful to ignoring any exception that might be thrown by the cond
 It's also possible to specify specific exceptions to ignore::
 
     wait().ignore_exceptions(ZeroDevisionError, AttributeError).until(lambda: app.is_healthy())
-

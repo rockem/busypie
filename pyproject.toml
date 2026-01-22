@@ -29,6 +29,22 @@ test = [
     "pytest-timeout==2.4.0",
     "dataclasses==0.6",
 ]
+dev = [
+    "mypy>=1.0",
+]
 
 [tool.setuptools]
 packages = {find = {exclude = ["tests*"]}}
+
+[tool.isort]
+profile = "black"
+
+[tool.mypy]
+python_version = "3.8"
+check_untyped_defs = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+strict_equality = true
+warn_no_return = true
+exclude = ["build/", "setup.py", "docs/", "tests/"]

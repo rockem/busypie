@@ -1,4 +1,4 @@
-from busypie import given, wait, ONE_SECOND, wait_at_most, MILLISECOND
+from busypie import MILLISECOND, ONE_SECOND, given, wait, wait_at_most
 
 
 def test_start_with_given():

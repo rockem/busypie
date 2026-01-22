@@ -1,4 +1,4 @@
-__all__ = 'run',
+__all__ = ("run",)
 
 import sys
 from asyncio import coroutines, events, tasks
@@ -29,8 +29,7 @@ def run(main, *, debug=False):
         asyncio.run(main())
     """
     if events._get_running_loop() is not None:
-        raise RuntimeError(
-            "asyncio.run() cannot be called from a running event loop")
+        raise RuntimeError("asyncio.run() cannot be called from a running event loop")
 
     if not coroutines.iscoroutine(main):
         raise ValueError("a coroutine was expected, got {!r}".format(main))
@@ -57,18 +56,19 @@ def _cancel_all_tasks(loop):
     for task in to_cancel:
         task.cancel()
 
-    loop.run_until_complete(
-        tasks.gather(*to_cancel, loop=loop, return_exceptions=True))
+    loop.run_until_complete(tasks.gather(*to_cancel, loop=loop, return_exceptions=True))
 
     for task in to_cancel:
         if task.cancelled():
             continue
         if task.exception() is not None:
-            loop.call_exception_handler({
-                'message': 'unhandled exception during asyncio.run() shutdown',
-                'exception': task.exception(),
-                'task': task,
-            })
+            loop.call_exception_handler(
+                {
+                    "message": "unhandled exception during asyncio.run() shutdown",
+                    "exception": task.exception(),
+                    "task": task,
+                }
+            )
 
 
 def _all_tasks(loop):

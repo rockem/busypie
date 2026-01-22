@@ -1,6 +1,12 @@
 import pytest
 
-from busypie import set_default_timeout, wait, reset_defaults, MILLISECOND, ConditionTimeoutError
+from busypie import (
+    MILLISECOND,
+    ConditionTimeoutError,
+    reset_defaults,
+    set_default_timeout,
+    wait,
+)
 from tests.sleeper import assert_done_after
 
 

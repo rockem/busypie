@@ -3,8 +3,7 @@ import asyncio
 import pytest
 
 from backports.asyncio import run
-from busypie import (FIVE_HUNDRED_MILLISECONDS, MILLISECOND,
-                     ConditionTimeoutError, wait)
+from busypie import FIVE_HUNDRED_MILLISECONDS, MILLISECOND, ConditionTimeoutError, wait
 from tests.sleeper import assert_done_after
 
 
@@ -44,7 +43,10 @@ def test_nested_waits():
 
 
 def test_return_on_timeout():
-    assert wait().at_most(100 * MILLISECOND).return_on_timeout().until(lambda: 2 == 3) is False
+    assert (
+        wait().at_most(100 * MILLISECOND).return_on_timeout().until(lambda: 2 == 3)
+        is False
+    )
 
 
 def test_raise_given_condition_invoked_before_at_least():
