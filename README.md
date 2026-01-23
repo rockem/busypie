@@ -11,6 +11,9 @@
   <a href="https://github.com/rockem/busypie/releases">
         <img src="https://img.shields.io/github/v/release/rockem/busypie" alt="release ver"/>
     </a>
+  <a href="https://pypi.org/project/busypie/">
+        <img src="https://img.shields.io/pypi/v/busypie" alt="pypi version"/>
+    </a>
   <a href="https://github.com/rockem/busypie/blob/master/LICENSE">
         <img src="http://img.shields.io/:license-apache2.0-blue.svg" alt="license badge"/>
     </a>
@@ -21,10 +24,16 @@ testing is a different matter. When testing asynchronous systems,
 it's very helpful to wait for some scenario to finish its course.
 busypie helps you perform busy waiting easily and expressively.
 
+## Installation
+
+```bash
+pip install busypie
+```
+
 ## Quickstart
 
 Most typical usage will be in test, when we have a scenario
-that require us to wait for something to happen.
+that requires us to wait for something to happen.
 
 ```python
 from busypie import wait, SECOND
