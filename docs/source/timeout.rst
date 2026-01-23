@@ -1,7 +1,7 @@
 Timeout
 =======
 
-It's possible to specify the timeout either by wait or wait_at_most::
+You can specify the timeout using either ``wait`` or ``wait_at_most``::
 
     from busypie import wait, wait_at_most, SECOND
 
@@ -10,28 +10,28 @@ It's possible to specify the timeout either by wait or wait_at_most::
 
 Condition timeout description
 -----------------------------
-Upon a timeout :pypi:`busypie` will raise a 'ConditionTimeoutError' exception, with the following message::
+When a timeout occurs, :pypi:`busypie` raises a ``ConditionTimeoutError`` exception with a message like::
 
     Failed to meet condition of <description> within X seconds
 
-For description there are 3 options:
+The description is determined as follows:
 
-- If the condition is a lambda, the description will be the content of the lambda
-- If the condition is a function, the description will be the name of the function
-- It's also possible to define the description by using::
+- If the condition is a lambda, the description is the lambda's source code
+- If the condition is a function, the description is the function's name
+- You can also provide a custom description::
 
     wait().with_description('check app is running').until(lambda: app_state() == 'UP')
 
 
 Condition timeout cause
 -----------------------
-If there was an ignored exception that was thrown prior to the the timeout, the
-'ConditionTimeoutError' error, will contain that last exception as the cause for it.
+If an ignored exception was raised before the timeout, the
+``ConditionTimeoutError`` will include that exception as its cause.
 
 Return on timeout
 -----------------
-If needed it's possible to return False on timeout, instead of throwing the
-'ConditionTimeoutError' error::
+If needed, you can return ``False`` on timeout instead of raising a
+``ConditionTimeoutError``::
 
     result = wait().return_on_timeout().until(lambda: app_state() == 'UP')
     if not result:
@@ -39,7 +39,7 @@ If needed it's possible to return False on timeout, instead of throwing the
 
 Default timeout
 ---------------
-The default timeout in :pypi:`busypie` is set to 10 seconds, you can change that by using::
+The default timeout in :pypi:`busypie` is 10 seconds. You can change it using::
 
     from busypie import set_default_timeout
 
