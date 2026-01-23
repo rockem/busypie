@@ -16,10 +16,10 @@
     </a>
 </p>
 
-Although you wouldn't want to do much busy waiting in your production code,
+Although you typically wouldn't want to do much busy-waiting in your production code,
 testing is a different matter. When testing asynchronous systems,
 it's very helpful to wait for some scenario to finish its course.
-busypie helps you perform busy waiting easily and expressively.
+**busypie** helps you perform busy waiting easily and expressively.
 
 ## Installation
 
