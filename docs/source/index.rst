@@ -5,13 +5,13 @@
 
 Welcome to busypie!
 ===================================
-busypie is an easy and expressive utility to do busy-waiting in Python
+busypie is an easy and expressive busy-waiting library for Python.
 
 |busypie_logo|
 
-Although, most of the time, you wouldn't want to do much busy waiting in your production code,
+Although you typically wouldn't want to do much busy-waiting in production code,
 testing is a different matter. When testing asynchronous systems,
-it's very helpful to wait for some scenario to finish its course.
+it's very helpful to wait for a scenario to complete.
 
 :pypi:`busypie` helps you perform busy waiting easily and expressively.
 

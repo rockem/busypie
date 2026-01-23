@@ -1,10 +1,10 @@
-Exceptions handling
-===================
+Exception handling
+==================
 
-Sometimes it's useful to ignoring any exception that might be thrown by the condition function::
+Sometimes it's useful to ignore exceptions that may be raised by the condition function::
 
     wait().ignore_exceptions().until(lambda: app.is_healthy())
 
-It's also possible to specify specific exceptions to ignore::
+You can also specify which exceptions to ignore::
 
-    wait().ignore_exceptions(ZeroDevisionError, AttributeError).until(lambda: app.is_healthy())
+    wait().ignore_exceptions(ZeroDivisionError, AttributeError).until(lambda: app.is_healthy())

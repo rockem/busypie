@@ -1,10 +1,10 @@
 Installation
 ============
 
-In order to install :pypi:`busypie` using :pypi:`pip`, run::
+To install :pypi:`busypie` using :pypi:`pip`, run::
 
     pip install busypie
 
-To update an already install :pypi:`busypie` version, run::
+To update an existing :pypi:`busypie` installation, run::
 
     pip install -U busypie

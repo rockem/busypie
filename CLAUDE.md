@@ -50,3 +50,7 @@ polls until condition is true or timeout.
 
 This project uses TDD as a development method. Which means that each functionality is being tested
 before it's implemented
+
+## Documentation
+
+Documentation files are located in the `docs/` directory and use reStructuredText (RST) format.
