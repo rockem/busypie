@@ -99,8 +99,9 @@ class Condition:
 
     def append_exception(self, exception: Type[Exception]):
         if self.ignored_exceptions is None:
-            self.ignored_exceptions = []
-        self.ignored_exceptions.append(exception)
+            self.ignored_exceptions = [exception]
+        elif self.ignored_exceptions:  # Only append if not empty (empty = ignore all)
+            self.ignored_exceptions.append(exception)
 
     def __eq__(self, other):
         if not isinstance(other, Condition):
