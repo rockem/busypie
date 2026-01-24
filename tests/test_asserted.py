@@ -38,13 +38,20 @@ def test_retrieve_assertion_error_as_cause_on_timeout():
     assert isinstance(e.value.__cause__, AssertionError)
 
 
+def test_ignore_all_exceptions_with_until_asserted():
+    with pytest.raises(ConditionTimeoutError):
+        wait().ignore_exceptions().at_most(ONE_HUNDRED_MILLISECONDS).until_asserted(
+            _raise_zero_division_error
+        )
+
+
+def _raise_zero_division_error():
+    return 1 / 0
+
+
 def test_wait_for_async_assertion_to_pass():
     with assert_done_after(seconds=0.5) as c:
         wait().until_asserted(partial(_assert_is_done_async, c))
-
-
-async def _failed_assertion_async():
-    assert 1 == 2
 
 
 def _failed_assertion():
