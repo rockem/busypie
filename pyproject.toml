@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61.0", "setuptools-scm>=8"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "busypie"
-version = "0.5.1"
+dynamic = ["version"]
 description = "Easy and expressive busy-waiting for Python"
 readme = "README.md"
 requires-python = ">=3.6"
@@ -35,6 +35,9 @@ dev = [
 
 [tool.setuptools]
 packages = {find = {exclude = ["tests*"]}}
+
+[tool.setuptools_scm]
+local_scheme = "no-local-version"
 
 [tool.isort]
 profile = "black"
