@@ -53,3 +53,9 @@ def test_raise_given_condition_invoked_before_at_least():
     with pytest.raises(ConditionTimeoutError):
         with assert_done_after(0.4) as c:
             wait().at_least(0.6).until(lambda: c.done)
+
+
+def test_at_least_timeout_message():
+    with pytest.raises(ConditionTimeoutError) as exc_info:
+        wait().at_least(0.5).until(lambda: True)
+    assert "0.5" in str(exc_info.value)
