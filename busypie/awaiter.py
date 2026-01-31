@@ -30,7 +30,7 @@ class AsyncConditionAwaiter:
             try:
                 result = await self._evaluator_check(evaluator)
                 if result:
-                    self.validate_lower_bound_time(start_time)
+                    self._validate_lower_bound_time(start_time)
                     return result
             except Exception as e:
                 self._raise_exception_if_not_ignored(e)
@@ -38,16 +38,15 @@ class AsyncConditionAwaiter:
             self._validate_upper_bound_time(evaluator, start_time)
             await asyncio.sleep(self._condition.poll_interval)
 
-    def validate_lower_bound_time(
+    def _validate_lower_bound_time(
         self,
         start_time: float,
     ):
         execute_time = time.time() - start_time
         if execute_time <= self._condition.min_wait_time:
             raise busypie.ConditionTimeoutError(
-                """Condition evaluated within [{}],
-                which is earlier than expected minimum timeout timeout [{}] seconds""".format(
-                    execute_time / 1000, self._condition.min_wait_time
+                "Condition evaluated within [{}], which is earlier than expected minimum timeout [{}] seconds".format(
+                    execute_time, self._condition.min_wait_time
                 ),
             )
 
