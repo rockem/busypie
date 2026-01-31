@@ -37,6 +37,21 @@ If needed, you can return ``False`` on timeout instead of raising a
     if not result:
         handle_error()
 
+Minimum wait time
+-----------------
+Sometimes you want to ensure that a condition is not met too quickly.
+Use ``at_least`` to specify a minimum wait time::
+
+    wait().at_least(2 * SECOND).until(condition_function)
+
+If the condition is met before the minimum wait time, a ``ConditionTimeoutError``
+will be raised. This is useful when you want to verify that a process takes
+at least a certain amount of time.
+
+You can combine ``at_least`` with ``at_most``::
+
+    wait().at_least(2 * SECOND).at_most(10 * SECOND).until(condition_function)
+
 Default timeout
 ---------------
 The default timeout in :pypi:`busypie` is 10 seconds. You can change it using::
