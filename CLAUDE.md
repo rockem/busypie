@@ -49,7 +49,8 @@ polls until condition is true or timeout.
 ## Testing
 
 This project uses TDD as a development method. Which means that each functionality is being tested
-before it's implemented
+before it's implemented. This is to make sure all business logic is covered and that we don't have uneeded complexed
+code.
 
 ## Documentation
 
