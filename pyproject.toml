@@ -31,6 +31,7 @@ test = [
 ]
 dev = [
     "mypy>=1.0",
+    "ruff>=0.4",
 ]
 
 [tool.setuptools]
@@ -51,3 +52,14 @@ warn_unused_ignores = true
 strict_equality = true
 warn_no_return = true
 exclude = ["build/", "setup.py", "docs/", "tests/"]
+
+[tool.ruff]
+line-length = 120
+exclude = [".venv", "venv", ".eggs", "build"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90"]
+mccabe.max-complexity = 6
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
