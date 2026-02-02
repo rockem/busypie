@@ -51,7 +51,7 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 strict_equality = true
 warn_no_return = true
-exclude = ["build/", "setup.py", "docs/", "tests/"]
+exclude = ["build/", "docs/", "tests/"]
 
 [tool.ruff]
 line-length = 120
