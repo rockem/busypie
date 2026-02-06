@@ -40,9 +40,7 @@ extensions = [
 ]
 
 extlinks = {
-    "pypi": ("https://pypi.python.org/pypi/%s", ""),
-    "github": ("https://github.com/%s", "github:/"),
-    "issue": ("https://github.com/behave/behave/issue/%s", "issue #"),
+    "pypi": ("https://pypi.python.org/pypi/%s", "%s"),
 }
 
 # Add any paths that contain templates here, relative to this directory.
