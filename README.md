@@ -42,8 +42,8 @@ def test_create_user():
 
 ## Documentation
 
-* [Installation](https://busypie.readthedocs.io/en/latest/install.html)
-* [Usage Guide](https://busypie.readthedocs.io/en/latest/index.html)
+* [Installation](https://busypie.readthedocs.io/install.html)
+* [Usage Guide](https://busypie.readthedocs.io/index.html)
 
 ## Links
 
