@@ -6,7 +6,7 @@
 </p>
 <p align="center">
   <a href="https://github.com/rockem/busypie/actions/workflows/test.yml">
-        <img src="https://github.com/rockem/busypie/actions/workflows/test.yml/badge.svg?branch=master" alt="test badge"/>
+        <img src="https://github.com/rockem/busypie/actions/workflows/test.yml/badge.svg?branch=master" alt="tests badge"/>
         </a>
   <a href="https://pypi.org/project/busypie/">
         <img src="https://img.shields.io/pypi/v/busypie" alt="pypi version"/>
