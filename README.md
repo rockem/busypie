@@ -21,12 +21,6 @@ testing is a different matter. When testing asynchronous systems,
 it's very helpful to wait for some scenario to finish its course.
 **busypie** helps you perform busy waiting easily and expressively.
 
-## Installation
-
-```bash
-pip install busypie
-```
-
 ## Quickstart
 
 Most typical usage will be in test, when we have a scenario
@@ -42,8 +36,8 @@ def test_create_user():
 
 ## Documentation
 
-* [Installation](https://busypie.readthedocs.io/install.html)
-* [Usage Guide](https://busypie.readthedocs.io/index.html)
+* [Installation](https://busypie.readthedocs.io/v0.6.x/install.html)
+* [Usage Guide](https://busypie.readthedocs.io/v0.6.x/)
 
 ## Links
 
